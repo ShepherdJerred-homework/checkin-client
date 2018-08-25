@@ -1,11 +1,17 @@
 import * as React from 'react';
-import './App.scss';
+import './App.css';
+import * as style from './App.mod.scss';
 
 export class App extends React.Component {
   public render() {
     return (
-      <div className='App'>
-        <h1>Hello, you crazy world!</h1>
+      <div>
+        <div className={style.App}>
+          <h1>Hello, world!</h1>
+        </div>
+        <div>
+          Whoopee!
+        </div>
       </div>
     );
   }
