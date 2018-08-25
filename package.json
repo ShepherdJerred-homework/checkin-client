@@ -5,25 +5,26 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --config webpack.config.prod.js",
-    "dev-server": "webpack-dev-server --hot --inline --config webpack.config.dev.js",
+    "build": "webpack --config webpack/config.prod",
+    "dev-server": "webpack-dev-server --hot --inline --config webpack/config.dev",
     "lint": "tslint -e node_modules -p tsconfig.json -t stylish",
     "lint:fix": "tslint -e node_modules -p tsconfig.json --fix"
   },
   "author": "Gabriel Foust",
   "license": "ISC",
   "dependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2"
-  },
-  "devDependencies": {
     "@types/react": "^16.4.11",
     "@types/react-dom": "^16.0.7",
+    "css-loader": "^1.0.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "style-loader": "^0.22.1",
     "ts-loader": "^4.5.0",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^3.1.5",
+    "webpack-merge": "^4.1.4"
   }
 }
