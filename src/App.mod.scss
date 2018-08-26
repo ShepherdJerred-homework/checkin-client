@@ -1,8 +1,19 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 $cool-color: green;
 
 .App {
   color: $cool-color;
-  ::placeholder {
-    color: grey;
+}
+
+.column-header {
+  border: 1px solid black;
+}
+
+@include media-breakpoint-up(md) {
+  .column-header {
+    color: blue;
   }
 }
