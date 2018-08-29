@@ -1,11 +1,11 @@
 import 'bootstrap';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import App from './App';
+import Root from './Root';
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <App />,
+    <Root />,
     document.getElementById('root') as HTMLElement,
   );
 });

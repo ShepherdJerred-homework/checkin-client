@@ -4,15 +4,16 @@
   "description": "Web client for checkin",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "build": "webpack --config webpack/config.prod",
     "dev-server": "webpack-dev-server --hot --inline --config webpack/config.dev",
     "lint": "tslint -e node_modules -p tsconfig.json -t stylish",
-    "lint:fix": "tslint -e node_modules -p tsconfig.json --fix"
+    "lint:fix": "tslint -e node_modules -p tsconfig.json --fix",
+    "test": "jest"
   },
   "author": "Gabriel Foust",
   "license": "ISC",
   "dependencies": {
+    "@types/jquery": "^3.3.6",
     "@types/react": "^16.4.11",
     "@types/react-dom": "^16.0.7",
     "autoprefixer": "^9.1.3",
