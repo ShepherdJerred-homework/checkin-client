@@ -14,19 +14,19 @@ module.exports = {
         loader: 'ts-loader',
       },
       {
-        test: /\.s?css$/,
+        test: /\.scss$/,
         loader: 'style-loader',
       },
+      // {
+      //   test: /\.scss$/,
+      //   exclude: /\.mod\.s?css$/,
+      //   loader: 'css-loader',
+      //   options: {
+      //     importLoaders: 2,
+      //   },
+      // },
       {
-        test: /\.s?css$/,
-        exclude: /\.mod\.s?css$/,
-        loader: 'css-loader',
-        options: {
-          importLoaders: 2,
-        },
-      },
-      {
-        test: /\.mod\.s?css$/,
+        test: /\.mod\.scss$/,
         use: {
           loader: 'typings-for-css-modules-loader',
           options: {
@@ -39,7 +39,7 @@ module.exports = {
         },
       },
       {
-        test: /\.s?css$/,
+        test: /\.scss$/,
         loader: 'postcss-loader',
         options: {
           config: {
