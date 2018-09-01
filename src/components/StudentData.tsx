@@ -1,6 +1,6 @@
 import * as React from 'react';
 import App from '../App';
-import Student from '../data/Student';
+import Student from '../store/Student';
 import { realpathSync } from 'fs';
 
 interface StudentViewProps {

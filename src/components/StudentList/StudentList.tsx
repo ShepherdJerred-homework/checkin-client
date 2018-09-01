@@ -1,17 +1,34 @@
 import * as React from 'react';
+import * as Redux from 'react-redux';
 import * as style from './StudentList.mod.scss';
-import Student from '../../data/Student';
+import Class from '../../store/Class';
+import State from '../../store/State';
+import Student from '../../store/Student';
+import { Dictionary } from '../../util';
 
 export interface StudentListProps {
+  classes: Dictionary<Class>;
   students: Student[];
+  loading: boolean;
 }
 
-export function StudentList(props: StudentListProps) {
+function StudentListWithStore(props: StudentListProps) {
+  function getColor(student: Student) {
+    if (student.class === null || ! (student.class in props.classes)) {
+      return style.gray;
+    }
+    else {
+      const clas = props.classes[student.class];
+      const color = clas.color;
+      return (style as any)[color];
+    }
+  }
+
   return (
     <section className={style.list}>
       {
         props.students.map(student =>
-          <button type="button" className={`btn btn-primary btn-large btn-block ${style.green}`} key={student.id}>
+          <button type="button" className={`btn btn-primary btn-large btn-block ${getColor(student)}`} key={student.id}>
             {student.firstName} {student.lastName} <span className={`${style.status} material-icons md-dark`}>home</span>
           </button>
         )
@@ -19,5 +36,13 @@ export function StudentList(props: StudentListProps) {
     </section>
   );
 }
+
+function mapStateToProps(state: State) {
+  return {
+    classes: state.classes,
+  };
+}
+
+export const StudentList = Redux.connect(mapStateToProps)(StudentListWithStore);
 
 export default StudentList;

@@ -2,4 +2,7 @@
 
 export const list: string;
 export const green: string;
+export const yellow: string;
+export const blue: string;
+export const gray: string;
 export const status: string;
