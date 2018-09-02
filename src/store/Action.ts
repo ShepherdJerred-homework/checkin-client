@@ -1,4 +1,5 @@
 import Class from './Class';
+import Student from './Student';
 
 export interface LoadClasses {
   type: 'LoadClasses';
@@ -8,10 +9,22 @@ export interface LoadClasses {
 export function loadClasses(classes: Class[]): LoadClasses {
   return {
     type: 'LoadClasses',
-    classes
+    classes,
   };
 }
 
-export type Action = LoadClasses;
+export interface LoadStudents {
+  type: 'LoadStudents';
+  students: Student[];
+}
+
+export function loadStudents(students: Student[]): LoadStudents {
+  return {
+    type: 'LoadStudents',
+    students,
+  }
+}
+
+export type Action = LoadClasses | LoadStudents;
 
 export default Action;

@@ -6,7 +6,7 @@ export function Page() {
   return (
     <div className={style.page}>
       <header className={style.header}>
-        Header
+        All Students
       </header>
       <div className={style.content}>
         <App.StudentData render={App.StudentList}/>

@@ -10,3 +10,7 @@ export const studentApiUrl  = `http://${apiHost}:${apiPort}/${studentApiPath}`;
 export const classApiPath = 'api/classes';
 
 export const classApiUrl  = `http://${apiHost}:${apiPort}/${classApiPath}`;
+
+export const wsApiPath = '/api/ws/checkin';
+
+export const wsApiUrl = `ws://${apiHost}:${apiPort}/${wsApiPath}`;

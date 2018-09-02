@@ -5,22 +5,24 @@ import Class from '../../store/Class';
 import State from '../../store/State';
 import Student from '../../store/Student';
 import { Dictionary } from '../../util';
+import { SortCriterion } from '../../store/SortCriterion';
 
-export interface StudentListProps {
+interface StudentListProps {
   classes: Dictionary<Class>;
   students: Student[];
   loading: boolean;
+  criteria: SortCriterion[];
 }
 
 function StudentListWithStore(props: StudentListProps) {
   function getColor(student: Student) {
     if (student.class === null || ! (student.class in props.classes)) {
-      return style.gray;
+      return style.noclass;
     }
     else {
       const clas = props.classes[student.class];
-      const color = clas.color;
-      return (style as any)[color];
+      const tag = clas.tag as 'threes' | 'fours' | 'kinder';
+      return style[tag];
     }
   }
 
@@ -28,8 +30,16 @@ function StudentListWithStore(props: StudentListProps) {
     <section className={style.list}>
       {
         props.students.map(student =>
-          <button type="button" className={`btn btn-large btn-block ${getColor(student)}`} key={student.id}>
-            {student.firstName} {student.lastName}
+          <button
+            type="button"
+            className={`btn btn-large btn-block ${getColor(student)}`}
+            key={student.id}
+          >
+            {
+              (props.criteria.indexOf('firstName') < props.criteria.indexOf('lastName')) ?
+                `${student.firstName} ${student.lastName}` :
+                `${student.lastName}, ${student.firstName}`
+            }
             <span className={style.status}>
               <i className='material-icons md-dark'>home</i>
             </span>
@@ -43,6 +53,7 @@ function StudentListWithStore(props: StudentListProps) {
 function mapStateToProps(state: State) {
   return {
     classes: state.classes,
+    criteria: state.sortCriteria,
   };
 }
 

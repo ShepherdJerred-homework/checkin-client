@@ -6,35 +6,41 @@
 .list {
   max-width: 25rem;
   flex-grow: 1;
+  padding-bottom: 0.5rem;
 
-  .green {
+  :global(.btn) {
+    position: relative;
+  }
+
+  .kinder {
     @include button-variant(#373, #373);
   }
 
-  .yellow {
+  .fours {
     @include button-variant(goldenrod, goldenrod);
   }
 
-  .blue {
+  .threes {
     @include button-variant(#33c, #33c);
   }
 
-  .gray {
-    background-color: gray;
-    border-color: gray;
+  .noclass {
+    @include button-variant(gray, gray);
   }
 
   .status {
+    position: absolute;
     display: flex;
-    float: right;
-    //@include gradient-radial(#ccc, #fff);
-    @include gradient-y-three-colors(#fff, #ccc, 50%, #fff);
+    align-content: center;
+    align-items: center;
+    top: -1px;
+    right: -1px;
+    height: calc(100% + 2px);
+    @include gradient-y-three-colors(#fff, #bbb, 50%, #fff);
     border-radius: 1.5rem 0.25rem 0.25rem 1.5rem;
-    margin: -0.325rem -0.7rem;
-    //padding: 0 8pt 0 4pt;
-    //height: 200%;
     i {
-      padding: 4pt 4pt 4pt 8pt;
+      padding-left: 6pt;
+      padding-right: 2pt;
     }
   }
 }
