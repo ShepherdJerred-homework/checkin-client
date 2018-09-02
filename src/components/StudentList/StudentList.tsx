@@ -28,8 +28,11 @@ function StudentListWithStore(props: StudentListProps) {
     <section className={style.list}>
       {
         props.students.map(student =>
-          <button type="button" className={`btn btn-primary btn-large btn-block ${getColor(student)}`} key={student.id}>
-            {student.firstName} {student.lastName} <span className={`${style.status} material-icons md-dark`}>home</span>
+          <button type="button" className={`btn btn-large btn-block ${getColor(student)}`} key={student.id}>
+            {student.firstName} {student.lastName}
+            <span className={style.status}>
+              <i className='material-icons md-dark'>home</i>
+            </span>
           </button>
         )
       }

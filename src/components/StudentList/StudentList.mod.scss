@@ -1,36 +1,22 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/utilities';
 
 .list {
   max-width: 25rem;
   flex-grow: 1;
 
   .green {
-    background-color: green;
-    border-color: green;
-
-    &:hover {
-      background-color: #393;
-      border-color: #393;
-    }
+    @include button-variant(#373, #373);
   }
 
   .yellow {
-    background-color: #da2;
-    border-color: #da2;
-
-    &:hover {
-      background-color: #e8b833;
-      border-color: #e8b833;
-    }
+    @include button-variant(goldenrod, goldenrod);
   }
 
   .blue {
-    background-color: #00c;
-    border-color: #00c;
-
-    &:hover {
-      background-color: #33f;
-      border-color: #33f;
-    }
+    @include button-variant(#33c, #33c);
   }
 
   .gray {
@@ -39,14 +25,17 @@
   }
 
   .status {
-    // display: block;
+    display: flex;
     float: right;
-    background-color: white;
+    //@include gradient-radial(#ccc, #fff);
+    @include gradient-y-three-colors(#fff, #ccc, 50%, #fff);
     border-radius: 1.5rem 0.25rem 0.25rem 1.5rem;
-    line-height: 1.5;
     margin: -0.325rem -0.7rem;
-    padding: 0 8pt 0 4pt;
-    // height: 100%;
+    //padding: 0 8pt 0 4pt;
+    //height: 200%;
+    i {
+      padding: 4pt 4pt 4pt 8pt;
+    }
   }
 }
 
