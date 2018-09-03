@@ -17,9 +17,9 @@
           "typeLiterals": "always",
           "imports": "always",
           "exports": "always",
-          "functions": "never",
+          "functions": "never"
         },
         "singleline": "never"
-      }]
+      } ]
     }
 }

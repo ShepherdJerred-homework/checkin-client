@@ -19,7 +19,7 @@ function classes(state: Dictionary<Class> = { }, action: Action): Dictionary<Cla
   }
 }
 
-function students(state: Student[] = [ ], action: Action): Student[] {
+function students(state: Dictionary<Student> = { }, action: Action): Dictionary<Student> {
   switch (action.type) {
     case 'LoadStudents':
       return action.students;
@@ -29,7 +29,7 @@ function students(state: Student[] = [ ], action: Action): Student[] {
 }
 
 function sortCriteria(
-  state: SortCriterion[] = [ 'status', 'firstName', 'lastName', 'class' ],
+  state: SortCriterion[] = [ 'status', 'lastName', 'firstName', 'class' ],
   action: Action
 ): SortCriterion[] {
   return state;

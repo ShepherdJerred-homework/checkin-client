@@ -6,7 +6,7 @@
 .list {
   max-width: 25rem;
   flex-grow: 1;
-  padding-bottom: 0.5rem;
+  padding: 0.5rem 0;
 
   :global(.btn) {
     position: relative;

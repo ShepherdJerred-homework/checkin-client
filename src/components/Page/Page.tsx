@@ -9,7 +9,7 @@ export function Page() {
         All Students
       </header>
       <div className={style.content}>
-        <App.StudentData render={App.StudentList}/>
+        <App.StudentList/>
       </div>
     </div>
   );

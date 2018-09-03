@@ -6,6 +6,6 @@ import Root from './Root';
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Root />,
-    document.getElementById('root') as HTMLElement,
+    document.getElementById('root') as HTMLElement
   );
 });

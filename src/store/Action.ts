@@ -1,3 +1,4 @@
+import { Dictionary } from '../util';
 import Class from './Class';
 import Student from './Student';
 
@@ -15,14 +16,14 @@ export function loadClasses(classes: Class[]): LoadClasses {
 
 export interface LoadStudents {
   type: 'LoadStudents';
-  students: Student[];
+  students: Dictionary<Student>;
 }
 
-export function loadStudents(students: Student[]): LoadStudents {
+export function loadStudents(students: Dictionary<Student>): LoadStudents {
   return {
     type: 'LoadStudents',
     students,
-  }
+  };
 }
 
 export type Action = LoadClasses | LoadStudents;

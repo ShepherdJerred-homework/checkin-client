@@ -1,11 +1,11 @@
+import { Dictionary } from '../util';
 import Class from './Class';
 import SortCriterion from './SortCriterion';
 import Student from './Student';
-import { Dictionary } from '../util';
 
 export interface State {
   classes: Dictionary<Class>;
-  students: Student[];
+  students: Dictionary<Student>;
   sortCriteria: SortCriterion[];
 }
 
