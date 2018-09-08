@@ -3,4 +3,4 @@
 export const page: string;
 export const header: string;
 export const content: string;
-export const footer: string;
+export const pane: string;

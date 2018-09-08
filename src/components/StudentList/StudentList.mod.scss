@@ -4,9 +4,8 @@
 @import '~bootstrap/scss/utilities';
 
 .list {
-  max-width: 25rem;
-  flex-grow: 1;
-  padding: 0.5rem 0;
+  height: 100%;
+  overflow: auto;
 
   :global(.btn) {
     position: relative;

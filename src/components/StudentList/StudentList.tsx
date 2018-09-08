@@ -1,5 +1,7 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
+import App from '../../App';
+import { addAlert } from '../../store/Action';
 import Class from '../../store/Class';
 import { SortCriterion } from '../../store/SortCriterion';
 import State from '../../store/State';
@@ -28,12 +30,14 @@ function StudentListWithStore(props: StudentListProps) {
 
   return (
     <section className={style.list}>
+      <div>
       {
         props.list.map(id => (student =>
           <button
             type='button'
             className={`btn btn-large btn-block ${getColor(student)}`}
             key={student.id}
+            onClick={ () => App.store.dispatch(addAlert('danger', 'This feature is not implemented')) }
           >
             {
               (props.criteria.indexOf('firstName') < props.criteria.indexOf('lastName')) ?
@@ -46,10 +50,10 @@ function StudentListWithStore(props: StudentListProps) {
           </button>
         )(props.students[id]))
       }
+      </div>
     </section>
   );
 }
-
 
 const classOrdinals: Dictionary<number> = {
   threes: 1,

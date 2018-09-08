@@ -17,18 +17,16 @@
 
   & > .content {
     flex-grow: 1;
-    overflow: auto;
     padding: 0 0.5rem;
     background-color: lightgray;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    align-content: space-around;
-    justify-content: center;
-  }
+    justify-content: space-around;
+    align-items: stretch;
 
-  & > .footer {
-    flex-grow: 0;
+    & > .pane {
+      flex-grow: 1;
+      max-width: 25rem
+    }
   }
 }

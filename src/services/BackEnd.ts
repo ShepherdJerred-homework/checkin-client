@@ -15,7 +15,6 @@ export class BackEnd {
     socket.onmessage = event => {
       try {
         const action: Action = JSON.parse(event.data);
-        App.logger.log('BackEnd message', action);
         App.store.dispatch(action);
       }
       catch (err) {

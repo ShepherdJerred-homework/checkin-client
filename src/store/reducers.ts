@@ -1,10 +1,24 @@
 import { combineReducers } from 'redux';
 import { Dictionary } from '../util';
 import Action from './Action';
+import Alert from './Alert';
 import Class from './Class';
 import SortCriterion from './SortCriterion';
 import State from './State';
 import Student from './Student';
+
+let count = 0;
+
+function alerts(state: Alert[] = [ ], action: Action): Alert[] {
+  switch (action.type) {
+    case 'AddAlert':
+      return [ { id: ++count, type: action.alertType, message: action.message }, ...state ];
+    case 'RemoveAlert':
+      return state.filter(alert => alert.id !== action.alertId);
+    default:
+      return state;
+  }
+}
 
 function classes(state: Dictionary<Class> = { }, action: Action): Dictionary<Class> {
   switch (action.type) {
@@ -21,7 +35,7 @@ function classes(state: Dictionary<Class> = { }, action: Action): Dictionary<Cla
 
 function students(state: Dictionary<Student> = { }, action: Action): Dictionary<Student> {
   switch (action.type) {
-    case 'LoadStudents':
+    case 'ServerLoadStudents':
       return action.students;
     default:
       return state;
@@ -36,6 +50,7 @@ function sortCriteria(
 }
 
 const reducer = combineReducers<State, Action>({
+  alerts,
   classes,
   students,
   sortCriteria,
