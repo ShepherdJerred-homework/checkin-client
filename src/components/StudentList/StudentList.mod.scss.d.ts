@@ -822,3 +822,4 @@ export const fours: string;
 export const threes: string;
 export const noclass: string;
 export const status: string;
+export const highlight: string;

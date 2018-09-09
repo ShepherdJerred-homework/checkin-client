@@ -1,12 +1,13 @@
 import App from '../App';
 import { wsApiUrl } from '../config';
-import { Action } from '../store/Action';
+import { Action, removeHighlight } from '../store/Action';
 import { Message, requestLoadStudents } from './Message';
 
 export class BackEnd {
   socket?: WebSocket;
 
   initCommunication() {
+    let highlightId = 1;
     const socket = new WebSocket(wsApiUrl);
     socket.onopen = event => {
       this.socket = socket;
@@ -15,6 +16,12 @@ export class BackEnd {
     socket.onmessage = event => {
       try {
         const action: Action = JSON.parse(event.data);
+        switch (action.type) {
+          case 'ServerUpdateStudentStatus':
+            action.highlightId = highlightId++;
+            setTimeout(() => App.store.dispatch(removeHighlight(action.studentId, action.highlightId)), 3000);
+            break;
+        }
         App.store.dispatch(action);
       }
       catch (err) {

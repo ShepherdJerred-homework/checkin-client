@@ -41,17 +41,38 @@ export function removeAlert(alertId: number): RemoveAlert {
   };
 }
 
+export interface RemoveHighlight {
+  type: 'RemoveHighlight';
+  studentId: string;
+  highlightId: number;
+}
+
+export function removeHighlight(studentId: string, highlightId: number): RemoveHighlight {
+  return {
+    type: 'RemoveHighlight',
+    studentId,
+    highlightId,
+  };
+}
+
 export interface ServerLoadStudents {
   type: 'ServerLoadStudents';
-  students: Dictionary<Student>;
+  students: Student[];
 }
 
 export interface ServerUpdateStudentStatus {
   type: 'ServerUpdateStudentStatus';
   studentId: string;
   status: string;
+  highlightId: number;
 }
 
-export type Action = LoadClasses | AddAlert | RemoveAlert | ServerLoadStudents | ServerUpdateStudentStatus;
+export type Action =
+  LoadClasses |
+  AddAlert |
+  RemoveAlert |
+  RemoveHighlight |
+  ServerLoadStudents |
+  ServerUpdateStudentStatus;
 
 export default Action;

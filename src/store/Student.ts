@@ -4,6 +4,7 @@ export interface Student {
   lastName: string;
   class: string;
   status: string;
+  highlightId?: number;
 }
 
 export default Student;

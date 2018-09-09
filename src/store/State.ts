@@ -8,6 +8,7 @@ export interface State {
   alerts: Alert[];
   classes: Dictionary<Class>;
   students: Dictionary<Student>;
+  studentList: string[];
   sortCriteria: SortCriterion[];
 }
 

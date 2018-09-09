@@ -13,6 +13,8 @@ module.exports = merge(require('./config.base'), {
     watchOptions: {
       ignored: [ 'node_modules', '**/*.spec.ts' ],
     },
+    disableHostCheck: true,
+    host: '0.0.0.0',
   }
 });
 

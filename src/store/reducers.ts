@@ -36,9 +36,44 @@ function classes(state: Dictionary<Class> = { }, action: Action): Dictionary<Cla
 function students(state: Dictionary<Student> = { }, action: Action): Dictionary<Student> {
   switch (action.type) {
     case 'ServerLoadStudents':
-      return action.students;
+    {
+      const newState: Dictionary<Student> = { };
+      for (const s of action.students) {
+        newState[s.id] = s;
+      }
+      return newState;
+    }
+    case 'ServerUpdateStudentStatus':
+    {
+      const student = state[action.studentId];
+      if (student) {
+        const updatedStudent = { ...student, status: action.status, highlightId: action.highlightId };
+        return { ...state, [action.studentId]: updatedStudent };
+      }
+      else {
+        return state;
+      }
+    }
+    case 'RemoveHighlight':
+    {
+      const student = state[action.studentId];
+      if (student && student.highlightId === action.highlightId) {
+        const updatedStudent = { ...student };
+        delete updatedStudent.highlightId;
+        return { ...state, [action.studentId]: updatedStudent };
+      }
+    }
     default:
       return state;
+  }
+}
+
+function studentList(state: string[] = [ ], action: Action): string[] {
+  switch (action.type) {
+    case 'ServerLoadStudents':
+      return action.students.map(s => s.id);
+    default:
+     return state;
   }
 }
 
@@ -53,6 +88,7 @@ const reducer = combineReducers<State, Action>({
   alerts,
   classes,
   students,
+  studentList,
   sortCriteria,
 });
 
