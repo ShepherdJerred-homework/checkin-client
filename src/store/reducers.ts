@@ -4,7 +4,7 @@ import Action from './Action';
 import Alert from './Alert';
 import Class from './Class';
 import SortCriterion from './SortCriterion';
-import State from './State';
+import State, { MenuState } from './State';
 import Student from './Student';
 
 let count = 0;
@@ -84,12 +84,22 @@ function sortCriteria(
   return state;
 }
 
+function menuState(state: MenuState = 'hidden', action: Action) {
+  switch (action.type) {
+    case 'ShowMenu':
+      return 'visible';
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers<State, Action>({
   alerts,
   classes,
   students,
   studentList,
   sortCriteria,
+  menuState,
 });
 
 export default reducer;

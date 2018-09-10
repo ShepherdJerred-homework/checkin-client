@@ -2,5 +2,6 @@
 
 export const listPane: string;
 export const header: string;
+export const menuBtn: string;
 export const content: string;
 export const pane: string;

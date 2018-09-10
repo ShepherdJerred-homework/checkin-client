@@ -1,5 +1,7 @@
 import { createStore } from 'redux';
 import AlertPanel from './components/AlertPanel/AlertPanel';
+import ListPane from './components/ListPane/ListPane';
+import Menu from './components/Menu/Menu';
 import Page from './components/Page/Page';
 import StudentList from './components/StudentList/StudentList';
 import BackEnd from './services/BackEnd';
@@ -11,6 +13,8 @@ import reducer from './store/reducers';
 export default {
   Page,
   AlertPanel,
+  ListPane,
+  Menu,
   StudentList,
   classes,
   logger,
