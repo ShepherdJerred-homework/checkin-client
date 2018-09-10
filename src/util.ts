@@ -1,5 +1,5 @@
 export type Maybe<T> = T | undefined;
 
-export interface Dictionary<T> {
-  [key: string]: T;
-}
+export type Dictionary<T, I extends keyof any = keyof any> = {
+  [P in I]: T;
+};

@@ -1,34 +1,41 @@
 import * as React from 'react';
 import * as style from './Menu.mod.scss';
 
+export type MenuResult = 'classes' | 'sort' | 'add' | undefined;
+
 interface MenuProps {
   menuState: 'visible' | 'hidden';
-  onClose: () => void;
+  onClose: (result?: MenuResult) => void;
 }
 
 function Menu(props: MenuProps) {
   return (
     <div
       className={`${style.menu} ${style[props.menuState]}`}
-      onClick={function(this: HTMLElement, event) {
-        props.onClose();
+      onClick={event => {
+        const el = event.target as HTMLElement;
+        let result: MenuResult;
+        if (el.id === 'classes' || el.id === 'sort' || el.id === 'add') {
+          result = el.id;
+        }
+        props.onClose(result);
       }}
     >
       <div className={style.display}>
         <div className={style.header}>
-          <button className={style.menuBtn} onClick={props.onClose}>
+          <button className={style.menuBtn} onClick={() => props.onClose}>
             <i className='material-icons md-dark'>menu</i>
           </button>
           Settings
         </div>
         <div className='list-group'>
-          <button className='list-group-item list-group-item-action'>
+          <button id='classes' className='list-group-item list-group-item-action'>
             Classes
           </button>
-          <button className='list-group-item list-group-item-action'>
+          <button id='sort' className='list-group-item list-group-item-action'>
             Sort Order
           </button>
-          <button className='list-group-item list-group-item-action'>
+          <button id='add' className='list-group-item list-group-item-action'>
             Add Student
           </button>
         </div>

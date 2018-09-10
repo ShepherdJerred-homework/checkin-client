@@ -16,6 +16,10 @@ interface StudentListProps {
   sortCriteria: SortCriterion[];
 }
 
+interface StudentListState {
+
+}
+
 function StudentListWithStore(props: StudentListProps) {
   function getClassStyle(student: Student) {
     if (student.class === null || ! (student.class in props.classes)) {

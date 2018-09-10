@@ -19,7 +19,7 @@ export class BackEnd {
         switch (action.type) {
           case 'ServerUpdateStudentStatus':
             action.highlightId = highlightId++;
-            setTimeout(() => App.store.dispatch(removeHighlight(action.studentId, action.highlightId)), 3000);
+            setTimeout(() => App.store.dispatch(removeHighlight(action.studentId, action.highlightId)), 1000);
             break;
         }
         App.store.dispatch(action);
