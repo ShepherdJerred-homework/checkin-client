@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Redux from 'react-redux';
 import App from '../../App';
 import { setStudentStatus } from '../../services/Message';
-import Class from '../../store/Class';
+import Class, { ClassTag } from '../../store/Class';
 import { SortCriterion } from '../../store/SortCriterion';
 import State from '../../store/State';
 import Student from '../../store/Student';
@@ -14,10 +14,7 @@ interface StudentListProps {
   students: Dictionary<Student>;
   studentList: string[];
   sortCriteria: SortCriterion[];
-}
-
-interface StudentListState {
-
+  show: ClassTag;
 }
 
 function StudentListWithStore(props: StudentListProps) {
@@ -32,7 +29,11 @@ function StudentListWithStore(props: StudentListProps) {
     }
   }
 
-  const studentOrder = props.studentList.slice();
+  const showingStudents = props.show === 'all' ?
+    props.studentList.slice() :
+    props.studentList.filter(id => props.students[id].class === props.show);
+
+  const studentOrder = showingStudents.slice();
   studentOrder.sort(compareStudentsByMultipleCriteria(props.students, props.sortCriteria));
   const studentPosition: Dictionary<number> = { };
   for (let i = 0, l = studentOrder.length; i < l; ++i) {
@@ -43,7 +44,7 @@ function StudentListWithStore(props: StudentListProps) {
     <section className={style.list}>
       <div>
       {
-        props.studentList.map(id => (student =>
+        showingStudents.map(id => (student =>
           <button
             type='button'
             className={`btn btn-large btn-block ${getClassStyle(student)}`}

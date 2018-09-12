@@ -1,12 +1,14 @@
 import * as React from 'react';
 import App from '../../App';
 import { showMenu } from '../../store/Action';
+import { classNames, ClassTag } from '../../store/Class';
 import { MenuResult } from '../Menu/Menu';
 import * as style from './ListPane.mod.scss';
 
 export interface ListPaneState {
   menuState: 'visible' | 'hidden';
   chooserState: 'visible' | 'hidden';
+  showingClasses: ClassTag;
 }
 
 export class ListPane extends React.PureComponent<{ }, ListPaneState> {
@@ -15,6 +17,7 @@ export class ListPane extends React.PureComponent<{ }, ListPaneState> {
     this.state = {
       menuState: 'hidden',
       chooserState: 'hidden',
+      showingClasses: 'all',
     };
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
@@ -32,8 +35,11 @@ export class ListPane extends React.PureComponent<{ }, ListPaneState> {
     }
   }
 
-  hideChooser() {
+  hideChooser(result?: ClassTag) {
     this.setState({ chooserState: 'hidden' });
+    if (result) {
+      this.setState({ showingClasses: result });
+    }
   }
 
   render() {
@@ -42,19 +48,19 @@ export class ListPane extends React.PureComponent<{ }, ListPaneState> {
         <App.Menu menuState={this.state.menuState} onClose={this.hideMenu}/>
         {
           this.state.chooserState === 'visible' ?
-            <App.ClassChooser initial='all' onClose={this.hideChooser}/> :
+            <App.ClassChooser initial={this.state.showingClasses} onClose={this.hideChooser}/> :
             undefined
         }
         <header className={style.header}>
           <button className={style.menuBtn} onClick={this.showMenu}>
             <i className='material-icons md-light'>menu</i>
           </button>
-          All Students
+          {classNames[this.state.showingClasses]}
         </header>
         <div className={style.content}>
           <div className={style.pane}>
             <App.AlertPanel/>
-            <App.StudentList/>
+            <App.StudentList show={this.state.showingClasses}/>
           </div>
         </div>
       </div>

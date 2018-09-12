@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { classNames, ClassTag, classTags } from '../../data/Class';
+import { classNames, ClassTag, classTags } from '../../store/Class';
 import * as style from './ClassChooser.mod.scss';
 
 interface ClassChooserProps {
