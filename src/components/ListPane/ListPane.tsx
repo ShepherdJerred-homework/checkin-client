@@ -45,7 +45,11 @@ export class ListPane extends React.PureComponent<{ }, ListPaneState> {
   render() {
     return (
       <div data-tag='list-pane' className={style.listPane}>
-        <App.Menu menuState={this.state.menuState} onClose={this.hideMenu}/>
+        {
+          this.state.menuState === 'visible' ?
+            <App.Menu onClose={this.hideMenu}/> :
+            undefined
+        }
         {
           this.state.chooserState === 'visible' ?
             <App.ClassChooser initial={this.state.showingClasses} onClose={this.hideChooser}/> :

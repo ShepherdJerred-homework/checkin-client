@@ -4,6 +4,4 @@ export const header: string;
 export const menuBtn: string;
 export const menu: string;
 export const display: string;
-export const hidden: string;
-export const visible: string;
 export const item: string;
