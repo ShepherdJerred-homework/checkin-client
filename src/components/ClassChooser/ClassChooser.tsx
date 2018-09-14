@@ -38,7 +38,7 @@ export class ClassChooser extends React.PureComponent<ClassChooserProps, ClassCh
           <div className={`list-group-item list-group-item-dark ${style.title}`}>Select Class</div>
           {
             classTags.map(tag =>
-              <button className={this.buttonClass(tag)} onClick={() => this.selectClass(tag)}>
+              <button key={tag} className={this.buttonClass(tag)} onClick={() => this.selectClass(tag)}>
                 {classNames[tag]}
               </button>
             )

@@ -1,5 +1,5 @@
 
-export const apiHost = 'localhost';
+export const apiHost = window.location.hostname;
 
 export const apiPort = 8000;
 
