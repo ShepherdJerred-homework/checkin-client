@@ -11,8 +11,6 @@ export interface State {
   classes: Dictionary<Class>;
   students: Dictionary<Student>;
   studentList: string[];
-  sortCriteria: SortCriterion[];
-  menuState: MenuState;
 }
 
 export default State;

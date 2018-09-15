@@ -33,7 +33,7 @@ export class ClassChooser extends React.PureComponent<ClassChooserProps, ClassCh
 
   render() {
     return (
-      <div className={`${style.classChooser}`}>
+      <div className={`${style.optionOverlay}`}>
         <div className='list-group'>
           <div className={`list-group-item list-group-item-dark ${style.title}`}>Select Class</div>
           {

@@ -124,7 +124,6 @@ function mapStateToProps(state: State) {
   return {
     classes: state.classes,
     students: state.students,
-    sortCriteria: state.sortCriteria,
     studentList: state.studentList,
   };
 }

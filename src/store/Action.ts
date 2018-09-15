@@ -55,16 +55,6 @@ export function removeHighlight(studentId: string, highlightId: number): RemoveH
   };
 }
 
-export interface ShowMenu {
-  type: 'ShowMenu';
-}
-
-export function showMenu(): ShowMenu {
-  return {
-    type: 'ShowMenu',
-  };
-}
-
 export interface ServerLoadStudents {
   type: 'ServerLoadStudents';
   students: Student[];
@@ -82,7 +72,6 @@ export type Action =
   AddAlert |
   RemoveAlert |
   RemoveHighlight |
-  ShowMenu |
   ServerLoadStudents |
   ServerUpdateStudentStatus;
 

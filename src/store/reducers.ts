@@ -77,29 +77,11 @@ function studentList(state: string[] = [ ], action: Action): string[] {
   }
 }
 
-function sortCriteria(
-  state: SortCriterion[] = [ 'status', 'lastName', 'firstName', 'class' ],
-  action: Action
-): SortCriterion[] {
-  return state;
-}
-
-function menuState(state: MenuState = 'hidden', action: Action) {
-  switch (action.type) {
-    case 'ShowMenu':
-      return 'visible';
-    default:
-      return state;
-  }
-}
-
 const reducer = combineReducers<State, Action>({
   alerts,
   classes,
   students,
   studentList,
-  sortCriteria,
-  menuState,
 });
 
 export default reducer;
