@@ -19,9 +19,9 @@ export class ClassChooser extends React.PureComponent<ClassChooserProps, ClassCh
     };
   }
 
-  buttonClass(result: ClassTag) {
+  buttonClass(tag: ClassTag) {
     const classes = [ 'list-group-item', 'list-group-item-action' ];
-    if (result === this.state.current) {
+    if (tag === this.state.current) {
       classes.push('list-group-item-primary');
     }
     return classes.join(' ');

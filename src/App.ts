@@ -5,6 +5,7 @@ import ListPane from './components/ListPane/ListPane';
 import Menu from './components/Menu/Menu';
 import Page from './components/Page/Page';
 import SortOrder from './components/SortOrder/SortOrder';
+import SortOrderButton from './components/SortOrderButton/SortOrderButton';
 import StudentList from './components/StudentList/StudentList';
 import BackEnd from './services/BackEnd';
 import * as classes from './services/classes';
@@ -19,6 +20,7 @@ export default {
   ListPane,
   Menu,
   SortOrder,
+  SortOrderButton,
   StudentList,
   classes,
   logger,

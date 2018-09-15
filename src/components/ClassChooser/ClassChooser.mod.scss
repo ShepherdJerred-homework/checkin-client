@@ -19,7 +19,16 @@
     }
   }
 
+  & :global(.list-group-item-action) {
+    transition: top 400ms, background-color 400ms;
+
+    &:global(.list-group-item-primary) {
+      transition: top 400ms;
+    }
+  }
+
 }
+
 .title {
   font-weight: bold;
 }
@@ -30,6 +39,10 @@
     margin-left: 0.25rem;
     margin-right: 0.25rem;
   }
+}
+
+.option-container {
+  background-color: white;
 }
 
 :global(.list-group-item).draggable {
@@ -51,3 +64,4 @@
   }
 
 }
+

@@ -73,7 +73,7 @@ export class ListPane extends React.PureComponent<{ }, ListPaneState> {
           this.state.overlay === 'chooser' ?
             <App.ClassChooser initial={this.state.showingClasses} onClose={this.hideChooser}/> :
           this.state.overlay === 'sorter' ?
-            <App.SortOrder initial={this.state.sortCriteria}  onClose={this.hideSorter}/> :
+            <App.SortOrderButton initial={this.state.sortCriteria}  onClose={this.hideSorter}/> :
             undefined
         }
         <header className={style.header}>

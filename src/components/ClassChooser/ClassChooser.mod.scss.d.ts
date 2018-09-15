@@ -3,6 +3,7 @@
 export const optionOverlay: string;
 export const title: string;
 export const btnRow: string;
+export const optionContainer: string;
 export const draggable: string;
 export const droppable: string;
 export const aboveTarget: string;
