@@ -5,4 +5,5 @@ export const title: string;
 export const btnRow: string;
 export const draggable: string;
 export const droppable: string;
-export const target: string;
+export const aboveTarget: string;
+export const belowTarget: string;

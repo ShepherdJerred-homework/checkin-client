@@ -42,11 +42,12 @@
 
 :global(.list-group-item).droppable {
 
-  height: calc(100% + 3px);
-
-  &.target {
-    height: 100%;
+  &.above-target {
     border-top: 3px solid #007bff;
+  }
+
+  &.below-target {
+    border-bottom: 3px solid #007bff;
   }
 
 }
