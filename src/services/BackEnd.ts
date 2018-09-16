@@ -27,7 +27,7 @@ export class BackEnd {
         };
         socket.onclose = event => {
           if (this.connected) {
-            App.store.dispatch(addAlert('danger', 'socketclose', 'Server connection was closed'));
+            App.store.dispatch(addAlert('danger', 'socketclose', 'Server connection closed'));
           }
           else {
             App.store.dispatch(addAlert('danger', 'connectfail', 'Unable to connect to server'));
