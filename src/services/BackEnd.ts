@@ -1,33 +1,61 @@
 import App from '../App';
 import { wsApiUrl } from '../config';
-import { Action, removeHighlight } from '../store/Action';
+import { Action, addAlert, removeHighlight } from '../store/Action';
 import { Message, requestLoadStudents } from './Message';
 
 export class BackEnd {
   socket?: WebSocket;
 
+  connected = false;
+
+  highlightId = 0;
+
   initCommunication() {
-    let highlightId = 1;
-    const socket = new WebSocket(wsApiUrl);
-    socket.onopen = event => {
-      this.socket = socket;
-      this.sendMessage(requestLoadStudents());
-    };
-    socket.onmessage = event => {
-      try {
-        const action: Action = JSON.parse(event.data);
-        switch (action.type) {
-          case 'ServerUpdateStudentStatus':
-            action.highlightId = highlightId++;
-            setTimeout(() => App.store.dispatch(removeHighlight(action.studentId, action.highlightId)), 1000);
-            break;
-        }
-        App.store.dispatch(action);
+    const connect = () => {
+      if (! this.socket) {
+        const socket = new WebSocket(wsApiUrl);
+        socket.onopen = event => {
+          this.socket = socket;
+          this.sendMessage(requestLoadStudents());
+          if (this.connected) {
+            App.store.dispatch(addAlert('success', 'socketconnect', 'Server connection established'));
+          }
+          this.connected = true;
+        };
+        socket.onmessage = event => {
+          this.handleAction(event.data);
+        };
+        socket.onclose = event => {
+          if (this.connected) {
+            App.store.dispatch(addAlert('danger', 'socketclose', 'Server connection was closed'));
+          }
+          else {
+            App.store.dispatch(addAlert('danger', 'connectfail', 'Unable to connect to server'));
+          }
+          this.socket = undefined;
+        };
       }
-      catch (err) {
-        App.logger.log(err);
-      }
     };
+
+    window.setInterval(connect, 2000);
+    connect();
+  }
+
+  handleAction(data: string) {
+    try {
+      const action: Action = JSON.parse(data);
+      switch (action.type) {
+        case 'ServerUpdateStudentStatus':
+          action.highlightId = ++this.highlightId;
+          setTimeout(() => App.store.dispatch(removeHighlight(action.studentId, action.highlightId)), 1000);
+          break;
+      }
+      App.store.dispatch(action);
+    }
+    catch (err) {
+      App.logger.log(err);
+    }
+
   }
 
   sendMessage(msg: Message) {

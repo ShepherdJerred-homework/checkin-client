@@ -9,9 +9,11 @@
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/grid";
 
+// Components
 @import "~bootstrap/scss/alert";
 @import "~bootstrap/scss/buttons";
 @import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/badge";
 
 /* Rules for sizing the icon. */
 .material-icons.md-18 { font-size: 18px; }

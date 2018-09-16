@@ -19,13 +19,15 @@ export interface AddAlert {
   type: 'AddAlert';
   alertType: AlertType;
   message: string;
+  tag: string;
 }
 
-export function addAlert(type: AlertType, message: string): AddAlert {
+export function addAlert(type: AlertType, tag: string, message: string): AddAlert {
   return {
     type: 'AddAlert',
     alertType: type,
     message,
+    tag,
   };
 }
 

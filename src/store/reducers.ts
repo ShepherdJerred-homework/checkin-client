@@ -12,9 +12,27 @@ let count = 0;
 function alerts(state: Alert[] = [ ], action: Action): Alert[] {
   switch (action.type) {
     case 'AddAlert':
-      return [ { id: ++count, type: action.alertType, message: action.message }, ...state ];
+      const alert = state.find(a => a.tag === action.tag);
+      if (alert) {
+        return state.map(a => a.tag === alert.tag ? {
+          id: a.id,
+          type: a.type,
+          message: a.message,
+          tag: a.tag,
+          count: a.count + 1,
+        } : a);
+      }
+      else {
+        return [ {
+          id: ++count,
+          type: action.alertType,
+          message: action.message,
+          tag: action.tag,
+          count: 1,
+        }, ...state ];
+      }
     case 'RemoveAlert':
-      return state.filter(alert => alert.id !== action.alertId);
+      return state.filter(a => a.id !== action.alertId);
     default:
       return state;
   }

@@ -6,7 +6,7 @@ module.exports = merge(require('./config.base'), {
   devtool: 'inline-cheap-module-source-map',
   devServer: {
     compress: true,
-    contentBase: path.join(__dirname, '../public'),
+    contentBase: path.join(__dirname, '../html'),
     historyApiFallback: true,
     hot: true,
     overlay: true,

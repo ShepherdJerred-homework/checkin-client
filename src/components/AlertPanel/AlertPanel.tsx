@@ -25,6 +25,11 @@ function AlertPanelWithStore(props: AlertPanelProps) {
     {
       props.alerts.slice(-5).map(alert =>
         <div className={`alert alert-${alert.type}`} key={alert.id}>
+          {
+            alert.count > 1 ?
+              <span className={`badge badge-${alert.type} badge-pill`}>{alert.count}</span> :
+              undefined
+          }
           {alert.message}
           <button className='alert-link'
             onClick={dismissAlert(alert)}
