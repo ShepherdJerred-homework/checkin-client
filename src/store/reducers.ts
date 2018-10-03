@@ -95,11 +95,21 @@ function studentList(state: string[] = [ ], action: Action): string[] {
   }
 }
 
+function columnCount(state = 1, action: Action): number {
+  switch (action.type) {
+    case 'SetColumnCount':
+      return action.count;
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers<State, Action>({
   alerts,
   classes,
   students,
   studentList,
+  columnCount,
 });
 
 export default reducer;

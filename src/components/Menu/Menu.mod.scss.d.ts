@@ -5,3 +5,4 @@ export const menuBtn: string;
 export const menu: string;
 export const display: string;
 export const item: string;
+export const invisible: string;

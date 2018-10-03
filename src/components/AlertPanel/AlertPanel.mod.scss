@@ -4,6 +4,7 @@
   :global(.alert) {
     width: 100%;
     margin-bottom: 0;
+    overflow: hidden;
 
     & :global(.badge) {
       margin-right: 0.5rem;

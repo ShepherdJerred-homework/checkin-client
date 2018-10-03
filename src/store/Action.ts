@@ -57,6 +57,18 @@ export function removeHighlight(studentId: string, highlightId: number): RemoveH
   };
 }
 
+export interface SetColumnCount {
+  type: 'SetColumnCount';
+  count: number;
+}
+
+export function setColumnCount(count: number): SetColumnCount {
+  return {
+    type: 'SetColumnCount',
+    count,
+  };
+}
+
 export interface ServerLoadStudents {
   type: 'ServerLoadStudents';
   students: Student[];
@@ -74,6 +86,7 @@ export type Action =
   AddAlert |
   RemoveAlert |
   RemoveHighlight |
+  SetColumnCount |
   ServerLoadStudents |
   ServerUpdateStudentStatus;
 
