@@ -1,4 +1,4 @@
-import Student from '../store/Student';
+import Student, { Status } from '../store/Student';
 
 export interface RequestLoadStudents {
   type: 'RequestLoadStudents';
@@ -13,10 +13,10 @@ export function requestLoadStudents(): RequestLoadStudents {
 export interface SetStudentStatus {
   type: 'SetStudentStatus';
   studentId: string;
-  status: string;
+  status: Status;
 }
 
-export function setStudentStatus(studentId: string, status: string): SetStudentStatus {
+export function setStudentStatus(studentId: string, status: Status): SetStudentStatus {
     return {
       type: 'SetStudentStatus',
       studentId,

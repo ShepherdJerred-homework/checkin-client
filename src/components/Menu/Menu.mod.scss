@@ -1,49 +1,36 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
 
-.header {
-  position: relative;
-  background-color: white;
-  color: black;
-  text-align: left;
-  font-size: 160%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0.25em 0;
-  background-color: lightslategrey;
-
-  & > .menu-btn {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 .25rem;
-    background-color: transparent;
-    border-style: none;
-    outline: none;
-    margin-right: 0.25rem;
-  }
-}
-
-.menu {
+.backdrop {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 10;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.33);
+}
 
-  .display {
-    position: absolute;
-    background-color: white;
-    color: black;
-    border: 1px solid darkslategrey;
-    text-align: left;
-    font-size: 1rem;
-    min-width: 240px;
-    height: 100vh;
-    padding: 0;
+.display {
+  position: absolute;
+  background-color: $light;
+  color: $dark;
+  border: 1px solid #666;
+  text-align: left;
+  font-size: 1rem;
+  min-width: 300px;
+  padding: 0;
 
-    :global(.list-group-item) {
-      display: flex;
+  :global(.list-group-item) {
+    display: flex;
+    cursor: pointer;
+
+    &.category {
+      font-weight: bold;
+    }
+
+    &.sub {
+      padding-left: 2.25rem;
     }
   }
 }

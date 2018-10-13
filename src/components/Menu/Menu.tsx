@@ -1,71 +1,65 @@
 import * as React from 'react';
-import * as Redux from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import App from '../../App';
-import { setColumnCount } from '../../store/Action';
-import State from '../../store/State';
 import * as style from './Menu.mod.scss';
 
-export type MenuResult = 'classes' | 'sort' | 'add' | undefined;
+export type MenuResult = 'checkin' | 'edit' | 'add' | 'classes' | 'sort' | undefined;
 
-interface MenuProps {
-  onClose: (result?: MenuResult) => void;
-  columnCount: number;
+interface MenuProps extends RouteComponentProps {
+  onMenuClose: (result: MenuResult) => void;
 }
 
-function MenuWithStore(props: MenuProps) {
-  function checkmarkClass(count: number) {
-    const classNames = [ 'material-icons', 'md-dark' ];
-    if (count !== props.columnCount) {
-      classNames.push(style.invisible);
+function Menu(props: MenuProps) {
+  function itemClassName(id: string) {
+    if (props.location.pathname.endsWith(id)) {
+      return 'list-group-item list-group-item-action list-group-item-primary';
     }
-    return classNames.join(' ');
+    else {
+      return 'list-group-item list-group-item-action';
+    }
+  }
+
+  function onClick(event: React.MouseEvent) {
+    if (event.target === event.currentTarget) {
+      props.onMenuClose(undefined);
+    }
+    else {
+      const id = (event.target as HTMLElement).id;
+      if (id === 'checkin' || id === 'edit' || id === 'add' || id === 'classes' || id === 'sort') {
+        props.onMenuClose(id);
+      }
+    }
   }
 
   return (
     <div
-      data-tag='menu'
-      className={style.menu}
-      onClick={event => {
-        const el = event.target as HTMLElement;
-        let result: MenuResult;
-        if (el.id === 'classes' || el.id === 'sort' || el.id === 'add') {
-          result = el.id;
-        }
-        else {
-          const match = el.id.match(/^col(\d)$/);
-          if (match) {
-            App.store.dispatch(setColumnCount(Number(match[1])));
-          }
-        }
-        props.onClose(result);
-      }}
+      data-tag='menu-backdrop'
+      className={style.backdrop}
+      onClick={onClick}
     >
       <div className={style.display}>
-        <div className={style.header}>
-          <button className={style.menuBtn} onClick={() => props.onClose}>
-            <i className='material-icons md-dark'>menu</i>
-          </button>
-          Settings
-        </div>
+        <App.Header type='light' onMenuClick={() => props.onMenuClose(undefined)}>Menu</App.Header>
         <div className='list-group list-group-flush'>
-          <button id='classes' className='list-group-item list-group-item-action'>
-            Classes
-          </button>
-          <button id='sort' className='list-group-item list-group-item-action'>
-            Sort Order
-          </button>
-          <button id='add' className='list-group-item list-group-item-action'>
-            Add Student
-          </button>
-          <div className='list-group-item disabled'>Columns</div>
-          <button id='col1' className='list-group-item list-group-item-action'>
-            <i className={checkmarkClass(1)}>done</i>&nbsp; 1
-          </button>
-          <div id='col2' className='list-group-item list-group-item-action'>
-            <i className={checkmarkClass(2)}>done</i>&nbsp; 2
+          <div className={`list-group-item list-group-item-secondary ${style.category}`}>
+            Tasks
           </div>
-          <div id='col3' className='list-group-item list-group-item-action'>
-            <i className={checkmarkClass(3)}>done</i>&nbsp; 3
+          <div id='checkin' className={`${itemClassName('checkin')} ${style.sub}`}>
+            Student Check-In
+          </div>
+          <div id='edit' className={`${itemClassName('edit')} ${style.sub}`}>
+            Edit Students
+          </div>
+          <div id='add' className={`${itemClassName('add')} ${style.sub}`}>
+            Add New Student
+          </div>
+          <div className={`list-group-item list-group-item-secondary ${style.category}`}>
+            Options
+          </div>
+          <div id='classes' className={`list-group-item list-group-item-action ${style.sub}`}>
+            Classes
+          </div>
+          <div id='sort' className={`list-group-item list-group-item-action ${style.sub}`}>
+            Sort Order
           </div>
         </div>
       </div>
@@ -73,12 +67,4 @@ function MenuWithStore(props: MenuProps) {
   );
 }
 
-function mapStateToProps(state: State) {
-  return {
-    columnCount: state.columnCount,
-  };
-}
-
-export const Menu = Redux.connect(mapStateToProps)(MenuWithStore);
-
-export default Menu;
+export default withRouter(Menu);

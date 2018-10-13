@@ -1,0 +1,32 @@
+
+
+.icon {
+  height: 2.5rem; width: 2.5rem;
+  border-radius: 50%;
+  border: solid thin fade-out(black, .95);
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  &.absent {
+    color: #0080ff;
+    background-color: #b3d9ff;
+  }
+  &.present {
+    color: #6ab04c;
+    background-color: #d3e8c9;
+  }
+  &.ready {
+    color: #f9ca24;
+    background-color: #fdedb4;
+  }
+  &.loading {
+    color: #7f7f7f;
+    background-color: #d9d9d9;
+  }
+}

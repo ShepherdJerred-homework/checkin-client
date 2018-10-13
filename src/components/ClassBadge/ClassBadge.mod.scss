@@ -1,0 +1,24 @@
+
+.badge:global(.badge) {
+  margin-right: 1rem;
+
+  background-color: gray;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.5rem 0.5rem;
+
+  &.twos {
+    background-color: #866;
+  }
+
+  &.threes {
+    background-color: #668;
+  }
+
+  &.fours {
+    background-color: #886;
+  }
+
+  &.kinder {
+    background-color: #686;
+  }
+}

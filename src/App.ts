@@ -1,10 +1,14 @@
 import { createStore } from 'redux';
-import AlertPanel from './components/AlertPanel/AlertPanel';
-import ClassChooser from './components/ClassChooser/ClassChooser';
-import ListPane from './components/ListPane/ListPane';
+// import AlertPanel from './components/AlertPanel/AlertPanel';
+import ClassBadge from './components/ClassBadge/ClassBadge';
+import ClassPicker from './components/ClassPicker/ClassPicker';
+import Header, { Subheader } from './components/Header/Header';
+// import ListPane from './components/ListPane/ListPane';
 import Menu from './components/Menu/Menu';
 import Page from './components/Page/Page';
-import SortOrderButton from './components/SortOrderButton/SortOrderButton';
+import SortPicker from './components/SortPicker/SortPicker';
+import StatusIcon from './components/StatusIcon/StatusIcon';
+import StatusPicker from './components/StatusPicker/StatusPicker';
 import StudentList from './components/StudentList/StudentList';
 import BackEnd from './services/BackEnd';
 import * as classes from './services/classes';
@@ -13,13 +17,18 @@ import * as students from './services/students';
 import reducer from './store/reducers';
 
 export default {
+  // AlertPanel,
   Page,
-  AlertPanel,
-  ClassChooser,
-  ListPane,
+  ClassBadge,
+  ClassPicker,
+  Header,
+  // ListPane,
   Menu,
-  SortOrderButton,
+  SortPicker,
   StudentList,
+  StatusIcon,
+  StatusPicker,
+  Subheader,
   classes,
   logger,
   students,

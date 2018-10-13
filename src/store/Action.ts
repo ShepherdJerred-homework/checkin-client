@@ -1,7 +1,7 @@
 import { Dictionary } from '../util';
 import { AlertType } from './Alert';
 import Class from './Class';
-import Student from './Student';
+import Student, { Status } from './Student';
 
 export interface LoadClasses {
   type: 'LoadClasses';
@@ -57,6 +57,20 @@ export function removeHighlight(studentId: string, highlightId: number): RemoveH
   };
 }
 
+export interface SetStudentStatusLoading {
+  type: 'SetStudentStatusLoading';
+  studentId: string;
+  statusLoading: boolean;
+}
+
+export function setStudentStatusLoading(studentId: string, statusLoading: boolean): SetStudentStatusLoading {
+  return {
+    type: 'SetStudentStatusLoading',
+    studentId,
+    statusLoading,
+  };
+}
+
 export interface SetColumnCount {
   type: 'SetColumnCount';
   count: number;
@@ -77,7 +91,7 @@ export interface ServerLoadStudents {
 export interface ServerUpdateStudentStatus {
   type: 'ServerUpdateStudentStatus';
   studentId: string;
-  status: string;
+  status: Status;
   highlightId: number;
 }
 
@@ -86,6 +100,7 @@ export type Action =
   AddAlert |
   RemoveAlert |
   RemoveHighlight |
+  SetStudentStatusLoading |
   SetColumnCount |
   ServerLoadStudents |
   ServerUpdateStudentStatus;

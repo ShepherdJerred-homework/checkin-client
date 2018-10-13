@@ -1,0 +1,43 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+.header {
+  font-size: 160%;
+  padding: 0.75rem;
+}
+
+.header-dark {
+  background-color: $dark;
+  color: $light;
+}
+
+.header-light {
+  background-color: #263b4f;
+  color: $light;
+}
+
+.icon {
+  margin-right: 0.75rem;
+  position: absolute;
+  cursor: pointer;
+}
+
+.text {
+  flex: 0 1 100%;
+  text-align: center;
+}
+
+.subheader {
+  padding: 0.5rem;
+  margin-top: -1.25rem;
+}
+
+.subheader-dark {
+  background-color: $dark;
+  color: darken($light, 10%);
+}
+
+.subheader-light {
+  background-color: $light;
+  color: lighten($dark, 10%);
+}

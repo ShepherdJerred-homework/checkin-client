@@ -11,7 +11,6 @@ export interface State {
   classes: Dictionary<Class>;
   students: Dictionary<Student>;
   studentList: string[];
-  columnCount: number;
 }
 
 export default State;

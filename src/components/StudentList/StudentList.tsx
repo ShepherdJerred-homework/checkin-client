@@ -5,7 +5,7 @@ import { setStudentStatus } from '../../services/Message';
 import Class, { ClassTag } from '../../store/Class';
 import { SortCriterion } from '../../store/SortCriterion';
 import State from '../../store/State';
-import Student from '../../store/Student';
+import Student, { Status } from '../../store/Student';
 import { Dictionary } from '../../util';
 import * as style from './StudentList.mod.scss';
 
@@ -15,19 +15,10 @@ interface StudentListProps {
   studentList: string[];
   sortCriteria: SortCriterion[];
   show: ClassTag;
+  onSelect: (studentId: string) => void;
 }
 
-function StudentListWithStore(props: StudentListProps) {
-  function getClassStyle(student: Student) {
-    if (student.class === null || ! (student.class in props.classes)) {
-      return style.noclass;
-    }
-    else {
-      const clas = props.classes[student.class];
-      const tag = clas.tag as 'threes' | 'fours' | 'kinder';
-      return style[tag];
-    }
-  }
+function StudentList(props: StudentListProps) {
 
   const showingStudents = props.show === 'all' ?
     props.studentList.slice() :
@@ -40,60 +31,55 @@ function StudentListWithStore(props: StudentListProps) {
     studentPosition[studentOrder[i]] = i;
   }
 
+  function studentStyle(id: string) {
+    return {
+      top: studentPosition[id] * 4 + 'rem',
+      backgroundColor: studentPosition[id] % 2 ? '#f8f8f8' : '#fff',
+    };
+  }
+
   return (
-    <section className={style.list}>
-      <div>
-      {
-        showingStudents.map(id => (student =>
-          <button
-            type='button'
-            className={`btn btn-large btn-block ${getClassStyle(student)}`}
-            style={{ top: studentPosition[student.id] * 3.25 + 'em' }}
-            key={student.id}
-            onClick={ () => nextStatus(student) }
-          >
-            {
-              (props.sortCriteria.indexOf('firstName') < props.sortCriteria.indexOf('lastName')) ?
-                `${student.firstName} ${student.lastName}` :
-                `${student.lastName}, ${student.firstName}`
-            }
-            <span className={student.highlightId ? `${style.status} ${style.highlight}` : style.status}>
-              <i className='material-icons md-dark'>{statusIcons[student.status]}</i>
-            </span>
-          </button>
-        )(props.students[id]))
-      }
-      </div>
+    <section className={`list-group ${style.list}`}>
+    {
+      showingStudents.map(id => (student =>
+        <div
+          data-tag='student'
+          className={`list-group-item ${style.student}`}
+          style={studentStyle(student.id)}
+          key={student.id}
+          onClick={props.onSelect.bind(null, student.id)}
+        >
+          <App.StatusIcon status={student.status} loading={student.statusLoading}/>
+          <div className={style.name}>
+          {
+            (props.sortCriteria.indexOf('firstName') < props.sortCriteria.indexOf('lastName')) ?
+              `${student.firstName} ${student.lastName}` :
+              `${student.lastName}, ${student.firstName}`
+          }
+          </div>
+          <App.ClassBadge classTag={student.class}/>
+        </div>
+      )(props.students[id]))
+    }
     </section>
   );
 }
 
 const classOrdinals: Dictionary<number> = {
-  threes: 0,
-  fours: 1,
-  kinder: 2,
-  null: 3,
+  twos: 0,
+  threes: 1,
+  fours: 2,
+  kinder: 3,
+  null: 4,
 };
 
-const statusOrdinals: Dictionary<number> = {
-  awaited: 0,
+const statusOrdinals: Dictionary<number, Status> = {
+  ready: 0,
   present: 1,
-  away: 2,
+  absent: 2,
 };
 
-const statusIcons: Dictionary<string> = {
-  away: 'home',
-  present: 'person',
-  awaited: 'directions_walk',
-};
-
-const statusOrdering: string[] = [ 'away', 'present', 'awaited' ];
-
-function nextStatus(student: Student) {
-  const pos = statusOrdering.indexOf(student.status);
-  const nextPos = (pos + 1) % statusOrdering.length;
-  App.backend.sendMessage(setStudentStatus(student.id, statusOrdering[nextPos]));
-}
+const statusOrdering: Status[] = [ 'absent', 'present', 'ready' ];
 
 function compareStudentsBySingleCriterion(criterion: SortCriterion, a: Student, b: Student) {
   switch (criterion) {
@@ -128,6 +114,4 @@ function mapStateToProps(state: State) {
   };
 }
 
-export const StudentList = Redux.connect(mapStateToProps)(StudentListWithStore);
-
-export default StudentList;
+export default Redux.connect(mapStateToProps)(StudentList);

@@ -66,6 +66,7 @@ function students(state: Dictionary<Student> = { }, action: Action): Dictionary<
       const student = state[action.studentId];
       if (student) {
         const updatedStudent = { ...student, status: action.status, highlightId: action.highlightId };
+        delete updatedStudent.statusLoading;
         return { ...state, [action.studentId]: updatedStudent };
       }
       else {
@@ -79,6 +80,20 @@ function students(state: Dictionary<Student> = { }, action: Action): Dictionary<
         const updatedStudent = { ...student };
         delete updatedStudent.highlightId;
         return { ...state, [action.studentId]: updatedStudent };
+      }
+      else {
+        return state;
+      }
+    }
+    case 'SetStudentStatusLoading':
+    {
+      const student = state[action.studentId];
+      if (student && student.statusLoading !== action.statusLoading) {
+        const updatedStudent = { ...student, statusLoading: action.statusLoading };
+        return { ...state, [action.studentId]: updatedStudent };
+      }
+      else {
+        return state;
       }
     }
     default:
@@ -95,21 +110,11 @@ function studentList(state: string[] = [ ], action: Action): string[] {
   }
 }
 
-function columnCount(state = 1, action: Action): number {
-  switch (action.type) {
-    case 'SetColumnCount':
-      return action.count;
-    default:
-      return state;
-  }
-}
-
 const reducer = combineReducers<State, Action>({
   alerts,
   classes,
   students,
   studentList,
-  columnCount,
 });
 
 export default reducer;
