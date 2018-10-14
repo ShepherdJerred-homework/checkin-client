@@ -1,6 +1,6 @@
 import App from '../App';
 import { wsApiUrl } from '../config';
-import { Action, addAlert, removeHighlight } from '../store/Action';
+import { Action, addAlert } from '../store/Action';
 import { Message, requestLoadStudents } from './Message';
 
 export class BackEnd {
@@ -44,12 +44,6 @@ export class BackEnd {
   handleAction(data: string) {
     try {
       const action: Action = JSON.parse(data);
-      switch (action.type) {
-        case 'ServerUpdateStudentStatus':
-          action.highlightId = ++this.highlightId;
-          setTimeout(() => App.store.dispatch(removeHighlight(action.studentId, action.highlightId)), 1000);
-          break;
-      }
       App.store.dispatch(action);
     }
     catch (err) {

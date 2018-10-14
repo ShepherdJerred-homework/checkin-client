@@ -4,6 +4,13 @@ export type ExactClassTag = 'twos' | 'threes' | 'fours' | 'kinder';
 
 export type ClassTag = ExactClassTag | 'all';
 
+export const exactClassTags: ClassTag[] = [
+  'twos',
+  'threes',
+  'fours',
+  'kinder',
+];
+
 export const classTags: ClassTag[] = [
   'twos',
   'threes',

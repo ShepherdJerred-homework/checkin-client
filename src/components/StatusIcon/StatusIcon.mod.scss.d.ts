@@ -5,3 +5,4 @@ export const absent: string;
 export const present: string;
 export const ready: string;
 export const loading: string;
+export const edit: string;

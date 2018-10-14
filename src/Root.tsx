@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './Root.scss';
 import { loadClasses } from './store/Action';
@@ -16,10 +16,7 @@ export class Root extends React.Component {
     return (
       <Provider store={App.store}>
         <BrowserRouter>
-          <Switch>
-            <Route path='/checkin' component={App.Page}/>
-            <Redirect to='/checkin'/>
-          </Switch>
+          <App.Page />
         </BrowserRouter>
       </Provider>
     );

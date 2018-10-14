@@ -98,7 +98,7 @@ export default class SortOrderButton extends React.PureComponent<SortPickerProps
               )
           }
           </div>
-          <div className='list-group-item list-group-item-secondary' style={{ justifyContent: 'flex-end' }}>
+          <div className={`list-group-item list-group-item-secondary ${style.buttonRow}`}>
             <button className='btn btn-primary' onClick={this.onDone}>Done</button>
           </div>
         </div>

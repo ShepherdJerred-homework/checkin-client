@@ -43,20 +43,6 @@ export function removeAlert(alertId: number): RemoveAlert {
   };
 }
 
-export interface RemoveHighlight {
-  type: 'RemoveHighlight';
-  studentId: string;
-  highlightId: number;
-}
-
-export function removeHighlight(studentId: string, highlightId: number): RemoveHighlight {
-  return {
-    type: 'RemoveHighlight',
-    studentId,
-    highlightId,
-  };
-}
-
 export interface SetStudentStatusLoading {
   type: 'SetStudentStatusLoading';
   studentId: string;
@@ -88,21 +74,30 @@ export interface ServerLoadStudents {
   students: Student[];
 }
 
-export interface ServerUpdateStudentStatus {
-  type: 'ServerUpdateStudentStatus';
+export interface ServerUpdateStudent {
+  type: 'ServerUpdateStudent';
+  student: Student;
+}
+
+export interface ServerAddStudent {
+  type: 'ServerAddStudent';
+  student: Student;
+}
+
+export interface ServerRemoveStudent {
+  type: 'ServerRemoveStudent';
   studentId: string;
-  status: Status;
-  highlightId: number;
 }
 
 export type Action =
   LoadClasses |
   AddAlert |
   RemoveAlert |
-  RemoveHighlight |
   SetStudentStatusLoading |
   SetColumnCount |
   ServerLoadStudents |
-  ServerUpdateStudentStatus;
+  ServerUpdateStudent |
+  ServerAddStudent |
+  ServerRemoveStudent;
 
 export default Action;

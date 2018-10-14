@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
 import App from '../../App';
-import { setStudentStatus } from '../../services/Message';
 import Class, { ClassTag } from '../../store/Class';
 import { SortCriterion } from '../../store/SortCriterion';
 import State from '../../store/State';
@@ -9,16 +8,17 @@ import Student, { Status } from '../../store/Student';
 import { Dictionary } from '../../util';
 import * as style from './StudentList.mod.scss';
 
-interface StudentListProps {
+interface Props {
   classes: Dictionary<Class>;
   students: Dictionary<Student>;
   studentList: string[];
   sortCriteria: SortCriterion[];
   show: ClassTag;
   onSelect: (studentId: string) => void;
+  editing?: boolean;
 }
 
-function StudentList(props: StudentListProps) {
+function StudentList(props: Props) {
 
   const showingStudents = props.show === 'all' ?
     props.studentList.slice() :
@@ -49,7 +49,7 @@ function StudentList(props: StudentListProps) {
           key={student.id}
           onClick={props.onSelect.bind(null, student.id)}
         >
-          <App.StatusIcon status={student.status} loading={student.statusLoading}/>
+          <App.StatusIcon status={props.editing ? 'edit' : student.status} loading={student.statusLoading}/>
           <div className={style.name}>
           {
             (props.sortCriteria.indexOf('firstName') < props.sortCriteria.indexOf('lastName')) ?

@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import App from '../../App';
 import * as style from './Menu.mod.scss';
 
-export type MenuResult = 'checkin' | 'edit' | 'add' | 'classes' | 'sort' | undefined;
+export type MenuResult = 'checkin' | 'edit' | 'new' | 'classes' | 'sort' | undefined;
 
 interface MenuProps extends RouteComponentProps {
   onMenuClose: (result: MenuResult) => void;
@@ -25,7 +25,7 @@ function Menu(props: MenuProps) {
     }
     else {
       const id = (event.target as HTMLElement).id;
-      if (id === 'checkin' || id === 'edit' || id === 'add' || id === 'classes' || id === 'sort') {
+      if (id === 'checkin' || id === 'edit' || id === 'new' || id === 'classes' || id === 'sort') {
         props.onMenuClose(id);
       }
     }
@@ -49,7 +49,7 @@ function Menu(props: MenuProps) {
           <div id='edit' className={`${itemClassName('edit')} ${style.sub}`}>
             Edit Students
           </div>
-          <div id='add' className={`${itemClassName('add')} ${style.sub}`}>
+          <div id='new' className={`${itemClassName('new')} ${style.sub}`}>
             Add New Student
           </div>
           <div className={`list-group-item list-group-item-secondary ${style.category}`}>

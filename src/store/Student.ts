@@ -8,8 +8,14 @@ export interface Student {
   lastName: string;
   class: ClassTag;
   status: Status;
-  highlightId?: number;
   statusLoading?: boolean;
+}
+
+export interface StudentEdit {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  class: ClassTag;
 }
 
 export default Student;

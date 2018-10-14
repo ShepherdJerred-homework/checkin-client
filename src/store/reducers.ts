@@ -61,29 +61,10 @@ function students(state: Dictionary<Student> = { }, action: Action): Dictionary<
       }
       return newState;
     }
-    case 'ServerUpdateStudentStatus':
+    case 'ServerAddStudent':
+    case 'ServerUpdateStudent':
     {
-      const student = state[action.studentId];
-      if (student) {
-        const updatedStudent = { ...student, status: action.status, highlightId: action.highlightId };
-        delete updatedStudent.statusLoading;
-        return { ...state, [action.studentId]: updatedStudent };
-      }
-      else {
-        return state;
-      }
-    }
-    case 'RemoveHighlight':
-    {
-      const student = state[action.studentId];
-      if (student && student.highlightId === action.highlightId) {
-        const updatedStudent = { ...student };
-        delete updatedStudent.highlightId;
-        return { ...state, [action.studentId]: updatedStudent };
-      }
-      else {
-        return state;
-      }
+      return { ...state, [action.student.id]: action.student };
     }
     case 'SetStudentStatusLoading':
     {
@@ -105,6 +86,10 @@ function studentList(state: string[] = [ ], action: Action): string[] {
   switch (action.type) {
     case 'ServerLoadStudents':
       return action.students.map(s => s.id);
+    case 'ServerAddStudent':
+      return state.concat([ action.student.id ]);
+    case 'ServerRemoveStudent':
+      return state.filter(id => id !== action.studentId);
     default:
      return state;
   }

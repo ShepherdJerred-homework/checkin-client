@@ -3,5 +3,4 @@
 export const backdrop: string;
 export const header: string;
 export const text: string;
-export const close: string;
 export const buttonRow: string;
