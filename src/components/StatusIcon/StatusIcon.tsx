@@ -6,7 +6,7 @@ import * as style from './StatusIcon.mod.scss';
 const statusIcons: Dictionary<string, Status | 'edit'> = {
   absent: 'home',
   present: 'face',
-  ready: 'alarm_add',
+  ready: 'alarm_on',
   edit: 'edit',
 };
 
