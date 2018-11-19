@@ -1,33 +1,35 @@
 import * as React from 'react';
+import * as Redux from 'react-redux';
 import { Redirect, Route, RouteComponentProps, Switch, withRouter} from 'react-router';
 import App from '../../App';
 import { setStudentStatus } from '../../services/Message';
-import { saveStudent, deleteStudent } from '../../services/students';
-import { setStudentStatusLoading } from '../../store/Action';
+import { deleteStudent, saveStudent } from '../../services/students';
+import { setClassTag, setSortOrder, setStudentStatusLoading } from '../../store/Action';
 import { classNames, ClassTag } from '../../store/Class';
 import SortCriterion from '../../store/SortCriterion';
+import State from '../../store/State';
 import { Status, StudentEdit } from '../../store/Student';
 import { bindMethods } from '../../util';
 import { MenuResult } from '../Menu/Menu';
 import * as style from './Page.mod.scss';
 
-interface State {
+interface PageState {
   overlay?: 'menu' | 'status' | 'classes' | 'sort' | 'confirm';
   selected?: string;
   condemned?: StudentEdit;
+}
+
+interface PageProps extends RouteComponentProps {
   classTag: ClassTag;
   sortOrder: SortCriterion[];
 }
 
-class Page extends React.PureComponent<RouteComponentProps, State> {
+class Page extends React.PureComponent<PageProps, PageState> {
 
-  constructor(props: RouteComponentProps) {
+  constructor(props: PageProps) {
     super(props);
     const pathname = this.props.location.pathname;
-    this.state = {
-      classTag: 'all',
-      sortOrder: [ 'status', 'lastName', 'firstName', 'class' ]
-    };
+    this.state = { };
     bindMethods(this,
       'onMenuOpen',
       'onMenuClose',
@@ -52,7 +54,7 @@ class Page extends React.PureComponent<RouteComponentProps, State> {
     else {
       this.setState({ overlay: undefined });
       if (result === 'checkin') {
-        this.props.history.push('/checkin')
+        this.props.history.push('/checkin');
       }
       else if (result === 'new') {
         this.props.history.push('/new');
@@ -81,14 +83,14 @@ class Page extends React.PureComponent<RouteComponentProps, State> {
 
   onClassSelect(classTag?: ClassTag) {
     if (classTag) {
-      this.setState({ classTag });
+      App.store.dispatch(setClassTag(classTag));
     }
     this.setState({ overlay: undefined });
   }
 
   onSortSelect(sortOrder?: SortCriterion[]) {
     if (sortOrder) {
-      this.setState({ sortOrder });
+      App.store.dispatch(setSortOrder(sortOrder));
     }
     this.setState({ overlay: undefined });
   }
@@ -134,11 +136,11 @@ class Page extends React.PureComponent<RouteComponentProps, State> {
           }
           {
             this.state.overlay === 'classes' &&
-              <App.ClassPicker classTag={this.state.classTag} onSelect={this.onClassSelect}/>
+              <App.ClassPicker classTag={this.props.classTag} onSelect={this.onClassSelect}/>
           }
           {
             this.state.overlay === 'sort' &&
-              <App.SortPicker order={this.state.sortOrder} onSelect={this.onSortSelect}/>
+              <App.SortPicker order={this.props.sortOrder} onSelect={this.onSortSelect}/>
           }
           {
             this.state.overlay === 'confirm' && this.state.condemned &&
@@ -151,11 +153,11 @@ class Page extends React.PureComponent<RouteComponentProps, State> {
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Student Check-In
                 </App.Header>,
-                <App.Subheader key='page_checkin_2' type='dark'>{classNames[this.state.classTag]}</App.Subheader>,
+                <App.Subheader key='page_checkin_2' type='dark'>{classNames[this.props.classTag]}</App.Subheader>,
                 <section key='page_checkin_3' className={style.scroll}>
                   <App.StudentList
-                    show={this.state.classTag}
-                    sortCriteria={this.state.sortOrder}
+                    show={this.props.classTag}
+                    sortCriteria={this.props.sortOrder}
                     onSelect={this.onStudentStatusSelect}
                   />
                 </section>,
@@ -164,11 +166,11 @@ class Page extends React.PureComponent<RouteComponentProps, State> {
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Edit Students
                 </App.Header>,
-                <App.Subheader key='page_checkin_2' type='dark'>{classNames[this.state.classTag]}</App.Subheader>,
+                <App.Subheader key='page_checkin_2' type='dark'>{classNames[this.props.classTag]}</App.Subheader>,
                 <section key='page_checkin_3' className={style.scroll}>
                   <App.StudentList
-                    show={this.state.classTag}
-                    sortCriteria={this.state.sortOrder.filter(c => c !== 'status')}
+                    show={this.props.classTag}
+                    sortCriteria={this.props.sortOrder.filter(c => c !== 'status')}
                     onSelect={this.onStudentEditSelect}
                     editing
                   />
@@ -195,4 +197,11 @@ class Page extends React.PureComponent<RouteComponentProps, State> {
 
 }
 
-export default withRouter(Page);
+function mapStateToProps(state: State) {
+  return {
+    classTag: state.classTag,
+    sortOrder: state.sortOrder,
+  };
+}
+
+export default withRouter(Redux.connect(mapStateToProps)(Page));

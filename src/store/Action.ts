@@ -1,7 +1,8 @@
 import { Dictionary } from '../util';
 import { AlertType } from './Alert';
-import Class from './Class';
+import Class, { ClassTag } from './Class';
 import Student, { Status } from './Student';
+import SortCriterion from './SortCriterion';
 
 export interface LoadClasses {
   type: 'LoadClasses';
@@ -57,15 +58,27 @@ export function setStudentStatusLoading(studentId: string, statusLoading: boolea
   };
 }
 
-export interface SetColumnCount {
-  type: 'SetColumnCount';
-  count: number;
+export interface SetClassTag {
+  type: 'SetClassTag';
+  classTag: ClassTag;
 }
 
-export function setColumnCount(count: number): SetColumnCount {
+export function setClassTag(classTag: ClassTag): SetClassTag {
   return {
-    type: 'SetColumnCount',
-    count,
+    type: 'SetClassTag',
+    classTag,
+  };
+}
+
+export interface SetSortOrder {
+  type: 'SetSortOrder';
+  order: SortCriterion[];
+}
+
+export function setSortOrder(order: SortCriterion[]): SetSortOrder {
+  return {
+    type: 'SetSortOrder',
+    order,
   };
 }
 
@@ -94,7 +107,8 @@ export type Action =
   AddAlert |
   RemoveAlert |
   SetStudentStatusLoading |
-  SetColumnCount |
+  SetClassTag |
+  SetSortOrder |
   ServerLoadStudents |
   ServerUpdateStudent |
   ServerAddStudent |

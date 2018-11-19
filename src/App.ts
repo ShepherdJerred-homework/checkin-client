@@ -1,4 +1,3 @@
-import { createStore } from 'redux';
 import ClassBadge from './components/ClassBadge/ClassBadge';
 import ClassPicker from './components/ClassPicker/ClassPicker';
 import Confirm from './components/Confirm/Confirm';
@@ -14,7 +13,7 @@ import BackEnd from './services/BackEnd';
 import * as classes from './services/classes';
 import * as logger from './services/logger';
 import * as students from './services/students';
-import reducer from './store/reducers';
+import { createStore } from './store/State';
 
 export default {
   ClassBadge,
@@ -32,6 +31,6 @@ export default {
   classes,
   logger,
   students,
-  store: createStore(reducer),
+  store: createStore(),
   backend: new BackEnd(),
 };
