@@ -1,7 +1,8 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
 import App from '../../App';
-import Class, { ClassTag } from '../../store/Class';
+import Class from '../../store/Class';
+import { Filter, FilterSet } from '../../store/Filter';
 import { SortCriterion } from '../../store/SortCriterion';
 import State from '../../store/State';
 import Student, { Status } from '../../store/Student';
@@ -12,20 +13,27 @@ interface Props {
   classes: Dictionary<Class>;
   students: Dictionary<Student>;
   studentList: string[];
-  sortCriteria: SortCriterion[];
-  show: ClassTag;
+  sortOrder: SortCriterion[];
+  filters: FilterSet;
   onSelect: (studentId: string) => void;
   editing?: boolean;
 }
 
 function StudentList(props: Props) {
 
-  const showingStudents = props.show === 'all' ?
-    props.studentList.slice() :
-    props.studentList.filter(id => props.students[id].class === props.show);
+  const firstNameFirst = props.sortOrder.indexOf('firstName') < props.sortOrder.indexOf('lastName');
+
+  const showingStudents = props.studentList.filter(id => {
+    const student = props.students[id];
+    if (! props.filters[student.class as Filter]) {
+      return false;
+    }
+    const name = firstNameFirst ? student.firstName : student.lastName;
+    return (name.substr(0, 1).toLowerCase() < 'n') ? props.filters.a_m : props.filters.n_z;
+  });
 
   const studentOrder = showingStudents.slice();
-  studentOrder.sort(compareStudentsByMultipleCriteria(props.students, props.sortCriteria));
+  studentOrder.sort(compareStudentsByMultipleCriteria(props.students, props.sortOrder));
   const studentPosition: Dictionary<number> = { };
   for (let i = 0, l = studentOrder.length; i < l; ++i) {
     studentPosition[studentOrder[i]] = i;
@@ -52,7 +60,7 @@ function StudentList(props: Props) {
           <App.StatusIcon status={props.editing ? 'edit' : student.status} loading={student.statusLoading}/>
           <div className={style.name}>
           {
-            (props.sortCriteria.indexOf('firstName') < props.sortCriteria.indexOf('lastName')) ?
+            (props.sortOrder.indexOf('firstName') < props.sortOrder.indexOf('lastName')) ?
               `${student.firstName} ${student.lastName}` :
               `${student.lastName}, ${student.firstName}`
           }
@@ -78,8 +86,6 @@ const statusOrdinals: Dictionary<number, Status> = {
   present: 1,
   absent: 2,
 };
-
-const statusOrdering: Status[] = [ 'absent', 'present', 'ready' ];
 
 function compareStudentsBySingleCriterion(criterion: SortCriterion, a: Student, b: Student) {
   switch (criterion) {
@@ -111,6 +117,8 @@ function mapStateToProps(state: State) {
     classes: state.classes,
     students: state.students,
     studentList: state.studentList,
+    filters: state.filters,
+    sortOrder: state.sortOrder,
   };
 }
 

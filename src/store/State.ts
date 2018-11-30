@@ -2,7 +2,8 @@ import * as Redux from 'redux';
 import App from '../App';
 import { Dictionary } from '../util';
 import Alert from './Alert';
-import Class, { ClassTag } from './Class';
+import Class from './Class';
+import { FilterSet } from './Filter';
 import reducer from './reducers';
 import SortCriterion from './SortCriterion';
 import Student from './Student';
@@ -14,8 +15,8 @@ export interface State {
   classes: Dictionary<Class>;
   students: Dictionary<Student>;
   studentList: string[];
-  classTag: ClassTag;
   sortOrder: SortCriterion[];
+  filters: FilterSet;
 }
 
 function loadState(): Partial<State> {
@@ -35,8 +36,8 @@ function loadState(): Partial<State> {
 function storeState(state: State) {
   try {
     localStorage.setItem('checkinState', JSON.stringify({
-      classTag: state.classTag,
       sortOrder: state.sortOrder,
+      filters: state.filters,
     }));
   }
   catch (err) {

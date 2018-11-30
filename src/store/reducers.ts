@@ -3,8 +3,9 @@ import { Dictionary } from '../util';
 import Action from './Action';
 import Alert from './Alert';
 import Class, { ClassTag } from './Class';
+import { allFiltersOn, FilterSet } from './Filter';
 import SortCriterion from './SortCriterion';
-import State, { MenuState } from './State';
+import State from './State';
 import Student from './Student';
 
 let count = 0;
@@ -95,15 +96,6 @@ function studentList(state: string[] = [ ], action: Action): string[] {
   }
 }
 
-function classTag(state: ClassTag = 'all', action: Action): ClassTag {
-  switch (action.type) {
-    case 'SetClassTag':
-      return action.classTag;
-    default:
-      return state;
-  }
-}
-
 function sortOrder(
   state: SortCriterion[] = [ 'status', 'lastName', 'firstName', 'class' ],
   action: Action
@@ -116,13 +108,22 @@ function sortOrder(
   }
 }
 
+function filters(state: FilterSet = allFiltersOn, action: Action): FilterSet {
+  switch (action.type) {
+    case 'SetFilters':
+      return action.filters;
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers<State, Action>({
   alerts,
   classes,
   students,
   studentList,
-  classTag,
   sortOrder,
+  filters,
 });
 
 export default reducer;

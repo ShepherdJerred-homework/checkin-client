@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
-import { classNames, ClassTag, exactClassTags } from '../../store/Class';
+import { classNames, ExactClassTag, exactClassTags } from '../../store/Class';
 import State from '../../store/State';
 import Student, { StudentEdit } from '../../store/Student';
 import { bindMethods, Dictionary } from '../../util';
@@ -18,7 +18,7 @@ interface StudentEditorState {
   id?: string;
   firstName: string;
   lastName: string;
-  classTag: ClassTag;
+  classTag: ExactClassTag;
   valid: Dictionary<boolean, Field>;
   touched: Dictionary<boolean, Field>;
 }
@@ -69,7 +69,7 @@ class StudentEditor extends React.PureComponent<StudentEditorProps, StudentEdito
   }
 
   onClassTagInput(event: React.FormEvent) {
-    const value = (event.target as HTMLSelectElement).value as ClassTag;
+    const value = (event.target as HTMLSelectElement).value as ExactClassTag;
     this.setState({
       classTag: value,
       touched: { ...this.state.touched, classTag: true },

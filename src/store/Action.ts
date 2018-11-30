@@ -1,8 +1,8 @@
-import { Dictionary } from '../util';
 import { AlertType } from './Alert';
 import Class, { ClassTag } from './Class';
-import Student, { Status } from './Student';
+import { FilterSet } from './Filter';
 import SortCriterion from './SortCriterion';
+import Student from './Student';
 
 export interface LoadClasses {
   type: 'LoadClasses';
@@ -58,18 +58,6 @@ export function setStudentStatusLoading(studentId: string, statusLoading: boolea
   };
 }
 
-export interface SetClassTag {
-  type: 'SetClassTag';
-  classTag: ClassTag;
-}
-
-export function setClassTag(classTag: ClassTag): SetClassTag {
-  return {
-    type: 'SetClassTag',
-    classTag,
-  };
-}
-
 export interface SetSortOrder {
   type: 'SetSortOrder';
   order: SortCriterion[];
@@ -79,6 +67,18 @@ export function setSortOrder(order: SortCriterion[]): SetSortOrder {
   return {
     type: 'SetSortOrder',
     order,
+  };
+}
+
+export interface SetFilters {
+  type: 'SetFilters';
+  filters: FilterSet;
+}
+
+export function setFilters(filters: FilterSet): SetFilters {
+  return {
+    type: 'SetFilters',
+    filters,
   };
 }
 
@@ -107,8 +107,8 @@ export type Action =
   AddAlert |
   RemoveAlert |
   SetStudentStatusLoading |
-  SetClassTag |
   SetSortOrder |
+  SetFilters |
   ServerLoadStudents |
   ServerUpdateStudent |
   ServerAddStudent |

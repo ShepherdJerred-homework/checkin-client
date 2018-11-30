@@ -4,7 +4,7 @@ import App from '../../App';
 import { State } from '../../store/State';
 import { Status, Student } from '../../store/Student';
 import { Dictionary } from '../../util';
-import * as style from './StatusPicker.mod.scss';
+import * as style from '../Backdrop/Backdrop.mod.scss';
 
 interface StatusPickerProps {
   studentId: string;
@@ -47,6 +47,7 @@ function StatusPicker(props: StatusPickerProps) {
         <div
           className={studentClassName('ready')}
           onClick={onStatusClick('ready')}
+          style={{ paddingLeft: 0 }}
         >
           <App.StatusIcon status='ready'/>
           <div className={style.text}>
@@ -56,6 +57,7 @@ function StatusPicker(props: StatusPickerProps) {
         <div
           className={studentClassName('present')}
           onClick={onStatusClick('present')}
+          style={{ paddingLeft: 0 }}
         >
           <App.StatusIcon status='present'/>
           <div className={style.text}>
@@ -65,6 +67,7 @@ function StatusPicker(props: StatusPickerProps) {
         <div
           className={studentClassName('absent')}
           onClick={onStatusClick('absent')}
+          style={{ paddingLeft: 0 }}
         >
           <App.StatusIcon status='absent'/>
           <div className={style.text}>

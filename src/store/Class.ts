@@ -4,7 +4,14 @@ export type ExactClassTag = 'twos' | 'threes' | 'fours' | 'kinder';
 
 export type ClassTag = ExactClassTag | 'all';
 
-export const exactClassTags: ClassTag[] = [
+export const classBadges: Dictionary<string, ExactClassTag> = {
+  twos: '2',
+  threes: '3',
+  fours: '4',
+  kinder: 'K',
+};
+
+export const exactClassTags: ExactClassTag[] = [
   'twos',
   'threes',
   'fours',

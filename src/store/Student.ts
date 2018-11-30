@@ -1,4 +1,4 @@
-import { ClassTag } from './Class';
+import { ExactClassTag } from './Class';
 
 export type Status = 'absent' | 'present' | 'ready';
 
@@ -6,7 +6,7 @@ export interface Student {
   id: string;
   firstName: string;
   lastName: string;
-  class: ClassTag;
+  class: ExactClassTag;
   status: Status;
   statusLoading?: boolean;
 }
@@ -15,7 +15,7 @@ export interface StudentEdit {
   id?: string;
   firstName: string;
   lastName: string;
-  class: ClassTag;
+  class: ExactClassTag;
 }
 
 export default Student;

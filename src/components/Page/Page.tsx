@@ -4,8 +4,9 @@ import { Redirect, Route, RouteComponentProps, Switch, withRouter} from 'react-r
 import App from '../../App';
 import { setStudentStatus } from '../../services/Message';
 import { deleteStudent, saveStudent } from '../../services/students';
-import { setClassTag, setSortOrder, setStudentStatusLoading } from '../../store/Action';
-import { classNames, ClassTag } from '../../store/Class';
+import { setFilters, setSortOrder, setStudentStatusLoading } from '../../store/Action';
+import { classBadges, classNames, ClassTag, ExactClassTag, exactClassTags } from '../../store/Class';
+import { Filter, FilterSet } from '../../store/Filter';
 import SortCriterion from '../../store/SortCriterion';
 import State from '../../store/State';
 import { Status, StudentEdit } from '../../store/Student';
@@ -14,14 +15,68 @@ import { MenuResult } from '../Menu/Menu';
 import * as style from './Page.mod.scss';
 
 interface PageState {
-  overlay?: 'menu' | 'status' | 'classes' | 'sort' | 'confirm';
+  overlay?: 'menu' | 'status' | 'classes' | 'sort' | 'confirm' | 'filter';
   selected?: string;
   condemned?: StudentEdit;
 }
 
 interface PageProps extends RouteComponentProps {
-  classTag: ClassTag;
   sortOrder: SortCriterion[];
+  filters: FilterSet;
+}
+
+function classes(filters: FilterSet): ExactClassTag[] {
+  const classTags: ExactClassTag[] = [ ];
+  for (const classTag of exactClassTags) {
+    if (filters[classTag as Filter]) {
+      classTags.push(classTag);
+    }
+  }
+  return classTags;
+}
+
+function selectedClass(classTags: ExactClassTag[]): ClassTag | undefined {
+  switch (classTags.length) {
+    case 1:
+      return classTags[0];
+    case 4:
+      return 'all';
+  }
+}
+
+function subheader(filters: FilterSet, classTags?: ExactClassTag[]): string {
+
+  if (! classTags) {
+    classTags = classes(filters);
+  }
+
+  let h: string;
+  switch (classTags.length) {
+    case 0:
+      h = 'No Classes';
+      break;
+    case 1:
+      h = classNames[classTags[0]];
+      break;
+    case 2:
+      h = `${classBadges[classTags[0]]} & ${classBadges[classTags[1]]}`;
+      break;
+    case 3:
+      h = `${classBadges[classTags[0]]}, ${classBadges[classTags[1]]}, & ${classBadges[classTags[2]]}`;
+      break;
+    default:
+      h = classNames.all;
+      break;
+  }
+
+  if (filters.a_m && ! filters.n_z) {
+    h += ' (A – M)';
+  }
+  else if (! filters.a_m && filters.n_z) {
+    h += ' (N – Z)';
+  }
+
+  return h;
 }
 
 class Page extends React.PureComponent<PageProps, PageState> {
@@ -39,7 +94,8 @@ class Page extends React.PureComponent<PageProps, PageState> {
       'onClassSelect',
       'onSortSelect',
       'onStudentEdit',
-      'onConfirmClose'
+      'onConfirmClose',
+      'onFilterSelect'
     );
   }
 
@@ -48,7 +104,7 @@ class Page extends React.PureComponent<PageProps, PageState> {
   }
 
   onMenuClose(result: MenuResult) {
-    if (result === 'classes' || result === 'sort') {
+    if (result === 'classes' || result === 'sort' || result === 'filter') {
       this.setState({ overlay: result });
     }
     else {
@@ -83,7 +139,12 @@ class Page extends React.PureComponent<PageProps, PageState> {
 
   onClassSelect(classTag?: ClassTag) {
     if (classTag) {
-      App.store.dispatch(setClassTag(classTag));
+      if (classTag === 'all') {
+        App.store.dispatch(setFilters({ twos: true, threes: true, fours: true, kinder: true, a_m: true, n_z: true }));
+      }
+      else {
+        App.store.dispatch(setFilters({ [classTag]: true, a_m: true, n_z: true }));
+      }
     }
     this.setState({ overlay: undefined });
   }
@@ -91,6 +152,13 @@ class Page extends React.PureComponent<PageProps, PageState> {
   onSortSelect(sortOrder?: SortCriterion[]) {
     if (sortOrder) {
       App.store.dispatch(setSortOrder(sortOrder));
+    }
+    this.setState({ overlay: undefined });
+  }
+
+  onFilterSelect(filters?: FilterSet) {
+    if (filters) {
+      App.store.dispatch(setFilters(filters));
     }
     this.setState({ overlay: undefined });
   }
@@ -123,6 +191,8 @@ class Page extends React.PureComponent<PageProps, PageState> {
   }
 
   render() {
+    const classTags = classes(this.props.filters);
+
     return (
       <div data-tag='page' className={style.page}>
         <div data-tag='column' className={style.column}>
@@ -136,11 +206,15 @@ class Page extends React.PureComponent<PageProps, PageState> {
           }
           {
             this.state.overlay === 'classes' &&
-              <App.ClassPicker classTag={this.props.classTag} onSelect={this.onClassSelect}/>
+              <App.ClassPicker classTag={selectedClass(classTags)} onSelect={this.onClassSelect}/>
           }
           {
             this.state.overlay === 'sort' &&
               <App.SortPicker order={this.props.sortOrder} onSelect={this.onSortSelect}/>
+          }
+          {
+            this.state.overlay === 'filter' &&
+              <App.FilterPicker filters={this.props.filters} onSelect={this.onFilterSelect}/>
           }
           {
             this.state.overlay === 'confirm' && this.state.condemned &&
@@ -153,11 +227,11 @@ class Page extends React.PureComponent<PageProps, PageState> {
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Student Check-In
                 </App.Header>,
-                <App.Subheader key='page_checkin_2' type='dark'>{classNames[this.props.classTag]}</App.Subheader>,
+                <App.Subheader key='page_checkin_2' type='dark'>
+                  {subheader(this.props.filters, classTags)}
+                </App.Subheader>,
                 <section key='page_checkin_3' className={style.scroll}>
                   <App.StudentList
-                    show={this.props.classTag}
-                    sortCriteria={this.props.sortOrder}
                     onSelect={this.onStudentStatusSelect}
                   />
                 </section>,
@@ -166,11 +240,11 @@ class Page extends React.PureComponent<PageProps, PageState> {
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Edit Students
                 </App.Header>,
-                <App.Subheader key='page_checkin_2' type='dark'>{classNames[this.props.classTag]}</App.Subheader>,
+                <App.Subheader key='page_checkin_2' type='dark'>
+                  {subheader(this.props.filters, classTags)}
+                </App.Subheader>,
                 <section key='page_checkin_3' className={style.scroll}>
                   <App.StudentList
-                    show={this.props.classTag}
-                    sortCriteria={this.props.sortOrder.filter(c => c !== 'status')}
                     onSelect={this.onStudentEditSelect}
                     editing
                   />
@@ -197,11 +271,11 @@ class Page extends React.PureComponent<PageProps, PageState> {
 
 }
 
-function mapStateToProps(state: State) {
+function mapStoreToProps(store: State) {
   return {
-    classTag: state.classTag,
-    sortOrder: state.sortOrder,
+    sortOrder: store.sortOrder,
+    filters: store.filters,
   };
 }
 
-export default withRouter(Redux.connect(mapStateToProps)(Page));
+export default withRouter(Redux.connect(mapStoreToProps)(Page));

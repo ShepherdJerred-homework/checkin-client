@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SortCriterion, { criteriaNames, sortCriteria } from '../../store/SortCriterion';
 import { bindMethods } from '../../util';
-import * as style from './SortPicker.mod.scss';
+import * as style from '../Backdrop/Backdrop.mod.scss';
 
 interface SortPickerProps {
   order: SortCriterion[];
@@ -14,7 +14,7 @@ interface SortPickerState {
   currentTimer?: number;
 }
 
-export default class SortOrderButton extends React.PureComponent<SortPickerProps, SortPickerState> {
+export default class SortPicker extends React.PureComponent<SortPickerProps, SortPickerState> {
 
   constructor(props: SortPickerProps) {
     super(props);
@@ -83,7 +83,7 @@ export default class SortOrderButton extends React.PureComponent<SortPickerProps
               <i className='material-icons'>close</i>
             </div>
           </div>
-          <div style={{ backgroundColor: 'white', position: 'relative', height: '256px'}}>
+          <div className={style.sortBackground}>
           {
               sortCriteria.map(criterion =>
                 <div

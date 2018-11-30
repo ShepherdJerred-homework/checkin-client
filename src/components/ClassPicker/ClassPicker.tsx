@@ -4,7 +4,7 @@ import { classNames, ClassTag, classTags } from '../../store/Class';
 import * as style from './ClassPicker.mod.scss';
 
 interface ClassPickerProps {
-  classTag: ClassTag;
+  classTag?: ClassTag;
   onSelect: (classTag?: ClassTag) => void;
 }
 

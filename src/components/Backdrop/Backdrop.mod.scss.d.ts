@@ -2,5 +2,7 @@
 
 export const backdrop: string;
 export const header: string;
+export const sortBackground: string;
 export const text: string;
 export const close: string;
+export const buttonRow: string;

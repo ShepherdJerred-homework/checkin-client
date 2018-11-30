@@ -1,6 +1,7 @@
 import ClassBadge from './components/ClassBadge/ClassBadge';
 import ClassPicker from './components/ClassPicker/ClassPicker';
 import Confirm from './components/Confirm/Confirm';
+import FilterPicker from './components/FilterPicker/FilterPicker';
 import Header, { Subheader } from './components/Header/Header';
 import Menu from './components/Menu/Menu';
 import Page from './components/Page/Page';
@@ -19,6 +20,7 @@ export default {
   ClassBadge,
   ClassPicker,
   Confirm,
+  FilterPicker,
   Header,
   Menu,
   Page,

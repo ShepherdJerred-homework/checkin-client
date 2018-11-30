@@ -22,12 +22,13 @@
     height: 64px;
     cursor: pointer;
     width: 100%;
+
   }
 
   & :global(.list-group-item-action) {
     transition: top 400ms, background-color 400ms;
 
-    &:global(.list-group-item-primary) {
+    &:global(.list-group-item-primary), &:global(.list-group-item-danger) {
       transition: top 400ms;
     }
   }
@@ -39,6 +40,12 @@
     padding-left: 1.25rem;
     padding-right: 0.75rem;
     cursor: default;
+  }
+
+  .sort-background {
+    background-color: white;
+    position: relative;
+    height: 256px;
   }
 
   .text {
