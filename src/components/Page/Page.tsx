@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
-import { Redirect, Route, RouteComponentProps, Switch, withRouter} from 'react-router';
+import { match, Redirect, Route, RouteComponentProps, Switch, withRouter} from 'react-router';
 import App from '../../App';
 import { setStudentStatus } from '../../services/Message';
 import { deleteStudent, saveStudent } from '../../services/students';
@@ -23,6 +23,7 @@ interface PageState {
 interface PageProps extends RouteComponentProps {
   sortOrder: SortCriterion[];
   filters: FilterSet;
+  match: match<{ task: string }>;
 }
 
 function classes(filters: FilterSet): ExactClassTag[] {
@@ -117,7 +118,7 @@ class Page extends React.PureComponent<PageProps, PageState> {
         this.props.history.push('/checkin');
       }
       else if (result === 'new') {
-        this.props.history.push('/new');
+        this.props.history.push(this.props.location.pathname + '/new');
       }
       else if (result === 'edit') {
         this.props.history.push('/edit');
@@ -178,7 +179,12 @@ class Page extends React.PureComponent<PageProps, PageState> {
           App.store.dispatch(setStudentStatusLoading(student.id, true));
         }
       }
-      this.props.history.push('/edit');
+      if (this.props.location.pathname.match(/^\/checkin(\/|$)/)) {
+        this.props.history.push('/checkin');
+      }
+      else {
+        this.props.history.push('/edit');
+      }
     }
   }
 
@@ -240,7 +246,7 @@ class Page extends React.PureComponent<PageProps, PageState> {
               </App.Confirm>
           }
           <Switch>
-            <Route path='/checkin' render={() => [
+            <Route path='/checkin' exact render={() => [
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Student Check-In
                 </App.Header>,
@@ -267,6 +273,10 @@ class Page extends React.PureComponent<PageProps, PageState> {
                   />
                 </section>,
             ]}/>
+            <Route path='/*/new' render={() => [
+              <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>Add New Student</App.Header>,
+              <App.StudentEditor key='page_new_2' onDone={this.onStudentEdit}/>,
+            ]}/>
             <Route path='/edit/:studentId' render={props => [
               <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>Edit Students</App.Header>,
               <App.StudentEditor
@@ -274,10 +284,6 @@ class Page extends React.PureComponent<PageProps, PageState> {
                 studentId={props.match.params.studentId}
                 onDone={this.onStudentEdit}
               />,
-            ]}/>
-            <Route path='/new' render={() => [
-              <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>Add New Student</App.Header>,
-              <App.StudentEditor key='page_new_2' onDone={this.onStudentEdit}/>,
             ]}/>
             <Redirect to='/checkin'/>
           </Switch>

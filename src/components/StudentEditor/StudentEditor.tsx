@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Redux from 'react-redux';
 import { classNames, ExactClassTag, exactClassTags } from '../../store/Class';
+import { FilterSet } from '../../store/Filter';
 import State from '../../store/State';
 import Student, { StudentEdit } from '../../store/Student';
 import { bindMethods, Dictionary } from '../../util';
@@ -10,6 +11,7 @@ interface StudentEditorProps {
   onDone: (student?: StudentEdit, del?: boolean) => void;
   students: Dictionary<Student>;
   studentId?: string;
+  filters?: FilterSet;
 }
 
 type Field = 'firstName' | 'lastName' | 'classTag';
@@ -21,6 +23,19 @@ interface StudentEditorState {
   classTag: ExactClassTag;
   valid: Dictionary<boolean, Field>;
   touched: Dictionary<boolean, Field>;
+}
+
+function firstClass(filters: FilterSet = { }): ExactClassTag {
+  if (filters.kinder) {
+    return 'kinder';
+  }
+  if (filters.fours) {
+    return 'fours';
+  }
+  if (filters.threes) {
+    return 'threes';
+  }
+  return 'twos';
 }
 
 class StudentEditor extends React.PureComponent<StudentEditorProps, StudentEditorState> {
@@ -41,7 +56,7 @@ class StudentEditor extends React.PureComponent<StudentEditorProps, StudentEdito
       this.state = {
         lastName: '',
         firstName: '',
-        classTag: 'twos',
+        classTag: firstClass(props.filters),
         valid: { classTag: true } as Dictionary<boolean, Field>,
         touched: { } as Dictionary<boolean, Field>,
       };
@@ -194,6 +209,7 @@ class StudentEditor extends React.PureComponent<StudentEditorProps, StudentEdito
 function mapStateToProps(state: State) {
   return {
     students: state.students,
+    filters: state.filters,
   };
 }
 
