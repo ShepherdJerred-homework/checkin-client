@@ -1,12 +1,22 @@
 import * as React from 'react';
 import * as style from './Confirm.mod.scss';
 
+export interface ButtonDescription {
+  text: string;
+  type: 'primary' | 'danger';
+}
+
 interface ConfirmProps {
   children?: React.ReactNode;
+  okBtn?: ButtonDescription;
   onClose: (confirm: boolean) => void;
 }
 
 export default function Confirm(props: ConfirmProps) {
+  const okBtn = props.okBtn || {
+    text: 'OK',
+    type: 'primary',
+  };
   return (
     <section data-tag='class-picker-backdrop' className={style.backdrop}>
       <div className='list-group'>
@@ -22,9 +32,9 @@ export default function Confirm(props: ConfirmProps) {
             onClick={() => props.onClose(false)}
           >Cancel</button>
           <button
-            className='btn btn-danger'
+            className={`btn btn-${okBtn.type}`}
             onClick={() => props.onClose(true)}
-          >Delete</button>
+          >{okBtn.text}</button>
         </div>
       </div>
     </section>

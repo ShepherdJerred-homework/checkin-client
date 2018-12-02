@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import App from '../../App';
 import * as style from './Menu.mod.scss';
 
-export type MenuResult = 'checkin' | 'edit' | 'new' | 'classes' | 'sort' | 'filter' | undefined;
+export type MenuResult = 'checkin' | 'edit' | 'new' | 'classes' | 'sort' | 'filter' | 'reset' | undefined;
 
 function isMenuResult(id?: string): id is MenuResult {
   return (
@@ -12,7 +12,8 @@ function isMenuResult(id?: string): id is MenuResult {
     id === 'new' ||
     id === 'classes' ||
     id === 'sort' ||
-    id === 'filter'
+    id === 'filter' ||
+    id === 'reset'
   );
 }
 
@@ -74,6 +75,9 @@ function Menu(props: MenuProps) {
           </div>
           <div id='sort' className={`list-group-item list-group-item-action ${style.sub}`}>
             Sort Order
+          </div>
+          <div id='reset' className={`list-group-item list-group-item-action ${style.sub}`}>
+            Reset
           </div>
         </div>
       </div>

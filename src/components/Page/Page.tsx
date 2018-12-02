@@ -4,7 +4,7 @@ import { Redirect, Route, RouteComponentProps, Switch, withRouter} from 'react-r
 import App from '../../App';
 import { setStudentStatus } from '../../services/Message';
 import { deleteStudent, saveStudent } from '../../services/students';
-import { setFilters, setSortOrder, setStudentStatusLoading } from '../../store/Action';
+import { resetState, setFilters, setSortOrder, setStudentStatusLoading } from '../../store/Action';
 import { classBadges, classNames, ClassTag, ExactClassTag, exactClassTags } from '../../store/Class';
 import { Filter, FilterSet } from '../../store/Filter';
 import SortCriterion from '../../store/SortCriterion';
@@ -15,7 +15,7 @@ import { MenuResult } from '../Menu/Menu';
 import * as style from './Page.mod.scss';
 
 interface PageState {
-  overlay?: 'menu' | 'status' | 'classes' | 'sort' | 'confirm' | 'filter';
+  overlay?: 'menu' | 'status' | 'classes' | 'sort' | 'confirmDelete' | 'filter' | 'confirmReset';
   selected?: string;
   condemned?: StudentEdit;
 }
@@ -94,8 +94,9 @@ class Page extends React.PureComponent<PageProps, PageState> {
       'onClassSelect',
       'onSortSelect',
       'onStudentEdit',
-      'onConfirmClose',
-      'onFilterSelect'
+      'onConfirmDeleteClose',
+      'onFilterSelect',
+      'onConfirmResetClose'
     );
   }
 
@@ -106,6 +107,9 @@ class Page extends React.PureComponent<PageProps, PageState> {
   onMenuClose(result: MenuResult) {
     if (result === 'classes' || result === 'sort' || result === 'filter') {
       this.setState({ overlay: result });
+    }
+    else if (result === 'reset') {
+      this.setState({ overlay: 'confirmReset' });
     }
     else {
       this.setState({ overlay: undefined });
@@ -165,7 +169,7 @@ class Page extends React.PureComponent<PageProps, PageState> {
 
   onStudentEdit(student?: StudentEdit, del?: boolean) {
     if (student && del) {
-      this.setState({ overlay: 'confirm', condemned: student });
+      this.setState({ overlay: 'confirmDelete', condemned: student });
     }
     else {
       if (student) {
@@ -178,7 +182,7 @@ class Page extends React.PureComponent<PageProps, PageState> {
     }
   }
 
-  onConfirmClose(confirm: boolean) {
+  onConfirmDeleteClose(confirm: boolean) {
     if (confirm && this.state.condemned && this.state.condemned.id) {
       deleteStudent(this.state.condemned.id);
       this.setState({ overlay: undefined, condemned: undefined });
@@ -188,6 +192,13 @@ class Page extends React.PureComponent<PageProps, PageState> {
     else {
       this.setState({ overlay: undefined, condemned: undefined });
     }
+  }
+
+  onConfirmResetClose(confirm: boolean) {
+    if (confirm) {
+      App.store.dispatch(resetState());
+    }
+    this.setState({ overlay: undefined });
   }
 
   render() {
@@ -217,9 +228,15 @@ class Page extends React.PureComponent<PageProps, PageState> {
               <App.FilterPicker filters={this.props.filters} onSelect={this.onFilterSelect}/>
           }
           {
-            this.state.overlay === 'confirm' && this.state.condemned &&
-              <App.Confirm onClose={this.onConfirmClose}>
+            this.state.overlay === 'confirmDelete' && this.state.condemned &&
+              <App.Confirm okBtn={{ text: 'Delete', type: 'danger' }} onClose={this.onConfirmDeleteClose}>
                 Permanently delete {this.state.condemned.firstName} {this.state.condemned.lastName}?
+              </App.Confirm>
+          }
+          {
+            this.state.overlay === 'confirmReset' &&
+              <App.Confirm onClose={this.onConfirmResetClose}>
+                Return all options to their default settings?
               </App.Confirm>
           }
           <Switch>

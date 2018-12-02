@@ -82,6 +82,16 @@ export function setFilters(filters: FilterSet): SetFilters {
   };
 }
 
+export interface ResetState {
+  type: 'ResetState';
+}
+
+export function resetState(): ResetState {
+  return {
+    type: 'ResetState',
+  };
+}
+
 export interface ServerLoadStudents {
   type: 'ServerLoadStudents';
   students: Student[];
@@ -109,6 +119,7 @@ export type Action =
   SetStudentStatusLoading |
   SetSortOrder |
   SetFilters |
+  ResetState |
   ServerLoadStudents |
   ServerUpdateStudent |
   ServerAddStudent |

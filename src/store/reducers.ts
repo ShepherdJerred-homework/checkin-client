@@ -117,7 +117,18 @@ function filters(state: FilterSet = allFiltersOn, action: Action): FilterSet {
   }
 }
 
-const reducer = combineReducers<State, Action>({
+function reducer(state: State = { } as State, action: Action): State {
+  return {
+    alerts: alerts(state.alerts, action),
+    classes: classes(state.classes, action),
+    students: students(state.students, action),
+    studentList: studentList(state.studentList, action),
+    sortOrder: sortOrder(action.type === 'ResetState' ? undefined : state.sortOrder, action),
+    filters: filters(action.type === 'ResetState' ? undefined : state.filters, action),
+  };
+}
+
+const reducerx = combineReducers<State, Action>({
   alerts,
   classes,
   students,
