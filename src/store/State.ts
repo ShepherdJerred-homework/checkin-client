@@ -23,7 +23,14 @@ function loadState(): Partial<State> {
   try {
     const checkinState = localStorage.getItem('checkinState');
     if (checkinState) {
-      return JSON.parse(checkinState);
+      const state = JSON.parse(checkinState);
+      if (state.filters.a_m) {
+        state.filters.a_l = true;
+      }
+      if (state.filters.n_z) {
+        state.filters.m_z = true;
+      }
+      return state;
     }
   }
   catch (err) {

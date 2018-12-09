@@ -70,11 +70,11 @@ function subheader(filters: FilterSet, classTags?: ExactClassTag[]): string {
       break;
   }
 
-  if (filters.a_m && ! filters.n_z) {
-    h += ' (A – M)';
+  if (filters.a_l && ! filters.m_z) {
+    h += ' (A – L)';
   }
-  else if (! filters.a_m && filters.n_z) {
-    h += ' (N – Z)';
+  else if (! filters.a_l && filters.m_z) {
+    h += ' (M – Z)';
   }
 
   return h;
@@ -145,10 +145,10 @@ class Page extends React.PureComponent<PageProps, PageState> {
   onClassSelect(classTag?: ClassTag) {
     if (classTag) {
       if (classTag === 'all') {
-        App.store.dispatch(setFilters({ twos: true, threes: true, fours: true, kinder: true, a_m: true, n_z: true }));
+        App.store.dispatch(setFilters({ twos: true, threes: true, fours: true, kinder: true, a_l: true, m_z: true }));
       }
       else {
-        App.store.dispatch(setFilters({ [classTag]: true, a_m: true, n_z: true }));
+        App.store.dispatch(setFilters({ [classTag]: true, a_l: true, m_z: true }));
       }
     }
     this.setState({ overlay: undefined });

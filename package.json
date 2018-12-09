@@ -4,7 +4,7 @@
   "description": "Web client for checkin",
   "main": "index.js",
   "scripts": {
-    "build": "cp -RT html dist && webpack --config webpack/config.prod",
+    "build": "cp -R html dist && webpack --config webpack/config.prod",
     "dev-server": "webpack-dev-server --hot --inline --config webpack/config.dev",
     "lint": "tslint -e node_modules -p tsconfig.json -t stylish",
     "lint:fix": "tslint -e node_modules -p tsconfig.json --fix",

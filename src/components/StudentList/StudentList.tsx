@@ -29,7 +29,7 @@ function StudentList(props: Props) {
       return false;
     }
     const name = firstNameFirst ? student.firstName : student.lastName;
-    return (name.substr(0, 1).toLowerCase() < 'n') ? props.filters.a_m : props.filters.n_z;
+    return (name.substr(0, 1).toLowerCase() < 'm') ? props.filters.a_l : props.filters.m_z;
   });
 
   const studentOrder = showingStudents.slice();
@@ -60,7 +60,7 @@ function StudentList(props: Props) {
           <App.StatusIcon status={props.editing ? 'edit' : student.status} loading={student.statusLoading}/>
           <div className={style.name}>
           {
-            (props.sortOrder.indexOf('firstName') < props.sortOrder.indexOf('lastName')) ?
+            firstNameFirst ?
               `${student.firstName} ${student.lastName}` :
               `${student.lastName}, ${student.firstName}`
           }

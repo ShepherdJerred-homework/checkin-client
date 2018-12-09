@@ -31,7 +31,7 @@ export default class FilterPicker extends React.PureComponent<FilterPickerProps,
     const filters = { ...this.state.filters, [id]: ! this.state.filters[id] };
     let nameErrorTimeout = this.state.nameErrorTimeout;
     let classErrorTimeout = this.state.classErrorTimeout;
-    if (! (filters.a_m || filters.n_z)) {
+    if (! (filters.a_l || filters.m_z)) {
       filters[id] = true;
       if (nameErrorTimeout) {
         window.clearTimeout(this.state.nameErrorTimeout);
@@ -64,7 +64,7 @@ export default class FilterPicker extends React.PureComponent<FilterPickerProps,
   }
 
   filterClassName(filter: Filter): string {
-    if (filter === 'a_m' || filter === 'n_z') {
+    if (filter === 'a_l' || filter === 'm_z') {
       if (this.state.nameErrorTimeout) {
         return 'list-group-item list-group-item-action list-group-item-danger';
       }
