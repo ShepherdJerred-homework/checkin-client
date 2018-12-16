@@ -3,3 +3,4 @@
 export const page: string;
 export const column: string;
 export const scroll: string;
+export const status: string;

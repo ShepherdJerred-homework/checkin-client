@@ -23,3 +23,10 @@
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+.status {
+  position: absolute;
+  right: 40px;
+  top: 15px;
+  color: #ffc107;
+}

@@ -208,6 +208,10 @@ class Page extends React.PureComponent<PageProps, PageState> {
     this.setState({ overlay: undefined });
   }
 
+  shouldDisplayAlert() {
+    return !this.props.isConnected;
+  }
+
   render() {
     const classTags = classes(this.props.filters);
 
@@ -250,9 +254,9 @@ class Page extends React.PureComponent<PageProps, PageState> {
             <Route path='/checkin' exact render={() => [
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Student Check-In
-                  {!this.props.isConnected &&
-                    <div>
-                      Connection Error
+                  {this.shouldDisplayAlert() &&
+                    <div className={style.status}>
+                      <i className='material-icons'>wifi_off</i>
                     </div>
                   }
                 </App.Header>,
@@ -268,6 +272,11 @@ class Page extends React.PureComponent<PageProps, PageState> {
             <Route path='/edit' exact render={() => [
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Edit Students
+                  {this.shouldDisplayAlert() &&
+                  <div className={style.status}>
+                    <i className='material-icons'>wifi_off</i>
+                  </div>
+                  }
                 </App.Header>,
                 <App.Subheader key='page_checkin_2' type='dark'>
                   {subheader(this.props.filters, classTags)}
@@ -280,11 +289,25 @@ class Page extends React.PureComponent<PageProps, PageState> {
                 </section>,
             ]}/>
             <Route path='/*/new' render={() => [
-              <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>Add New Student</App.Header>,
+              <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>
+                Add New Student
+                {this.shouldDisplayAlert() &&
+                <div className={style.status}>
+                  <i className='material-icons'>wifi_off</i>
+                </div>
+                }
+              </App.Header>,
               <App.StudentEditor key='page_new_2' onDone={this.onStudentEdit}/>,
             ]}/>
             <Route path='/edit/:studentId' render={props => [
-              <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>Edit Students</App.Header>,
+              <App.Header key='page_new_1' type='dark' onMenuClick={this.onMenuOpen}>
+                Edit Students
+                {this.shouldDisplayAlert() &&
+                <div className={style.status}>
+                  <i className='material-icons'>wifi_off</i>
+                </div>
+                }
+              </App.Header>,
               <App.StudentEditor
                 key='page_new_2'
                 studentId={props.match.params.studentId}

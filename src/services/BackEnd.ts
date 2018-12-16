@@ -25,7 +25,8 @@ export class BackEnd {
             App.store.dispatch(setConnectionStatus(true));
             this.queuedMessages.forEach(message => {
               this.sendMessage(message);
-            })
+            });
+            this.queuedMessages = [];
           }
         };
         socket.onmessage = event => {
