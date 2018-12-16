@@ -2,3 +2,5 @@
 compiled
 dist
 node_modules
+.idea
+*.iml

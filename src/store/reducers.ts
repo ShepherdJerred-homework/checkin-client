@@ -7,8 +7,26 @@ import { allFiltersOn, FilterSet } from './Filter';
 import SortCriterion from './SortCriterion';
 import State from './State';
 import Student from './Student';
+import { Status } from './Status';
 
 let count = 0;
+
+let defaultStatus: Status = {
+  isConnected: false
+};
+
+function statusReducer(state: Status = defaultStatus, action: Action): Status {
+  switch (action.type) {
+    case 'SetConnectionStatus': {
+      return {
+        ...state,
+        isConnected: action.isConnected
+      }
+    }
+    default:
+      return state;
+  }
+}
 
 function alerts(state: Alert[] = [ ], action: Action): Alert[] {
   switch (action.type) {
@@ -125,16 +143,8 @@ function reducer(state: State = { } as State, action: Action): State {
     studentList: studentList(state.studentList, action),
     sortOrder: sortOrder(action.type === 'ResetState' ? undefined : state.sortOrder, action),
     filters: filters(action.type === 'ResetState' ? undefined : state.filters, action),
+    status: statusReducer(state.status, action)
   };
 }
-
-const reducerx = combineReducers<State, Action>({
-  alerts,
-  classes,
-  students,
-  studentList,
-  sortOrder,
-  filters,
-});
 
 export default reducer;

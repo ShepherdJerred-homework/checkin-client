@@ -4,7 +4,7 @@ import { match, Redirect, Route, RouteComponentProps, Switch, withRouter} from '
 import App from '../../App';
 import { setStudentStatus } from '../../services/Message';
 import { deleteStudent, saveStudent } from '../../services/students';
-import { resetState, setFilters, setSortOrder, setStudentStatusLoading } from '../../store/Action';
+import { resetState, setConnectionStatus, setFilters, setSortOrder, setStudentStatusLoading } from '../../store/Action';
 import { classBadges, classNames, ClassTag, ExactClassTag, exactClassTags } from '../../store/Class';
 import { Filter, FilterSet } from '../../store/Filter';
 import SortCriterion from '../../store/SortCriterion';
@@ -24,6 +24,7 @@ interface PageProps extends RouteComponentProps {
   sortOrder: SortCriterion[];
   filters: FilterSet;
   match: match<{ task: string }>;
+  isConnected: boolean;
 }
 
 function classes(filters: FilterSet): ExactClassTag[] {
@@ -249,6 +250,11 @@ class Page extends React.PureComponent<PageProps, PageState> {
             <Route path='/checkin' exact render={() => [
                 <App.Header key='page_checkin_1' type='dark' onMenuClick={this.onMenuOpen}>
                   Student Check-In
+                  {!this.props.isConnected &&
+                    <div>
+                      Connection Error
+                    </div>
+                  }
                 </App.Header>,
                 <App.Subheader key='page_checkin_2' type='dark'>
                   {subheader(this.props.filters, classTags)}
@@ -298,6 +304,7 @@ function mapStoreToProps(store: State) {
   return {
     sortOrder: store.sortOrder,
     filters: store.filters,
+    isConnected: store.status.isConnected
   };
 }
 

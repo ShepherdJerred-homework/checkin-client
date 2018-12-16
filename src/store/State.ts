@@ -7,6 +7,7 @@ import { FilterSet } from './Filter';
 import reducer from './reducers';
 import SortCriterion from './SortCriterion';
 import Student from './Student';
+import { Status } from './Status';
 
 export type MenuState = 'visible' | 'hidden';
 
@@ -17,6 +18,7 @@ export interface State {
   studentList: string[];
   sortOrder: SortCriterion[];
   filters: FilterSet;
+  status: Status;
 }
 
 function loadState(): Partial<State> {

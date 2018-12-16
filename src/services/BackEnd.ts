@@ -1,6 +1,6 @@
 import App from '../App';
 import { wsApiUrl } from '../config';
-import { Action, addAlert } from '../store/Action';
+import { Action, addAlert, setConnectionStatus } from '../store/Action';
 import { Message, requestLoadStudents } from './Message';
 
 export class BackEnd {
@@ -9,6 +9,8 @@ export class BackEnd {
   connected = false;
 
   highlightId = 0;
+
+  queuedMessages: Message[] = [];
 
   initCommunication() {
     const connect = () => {
@@ -19,8 +21,12 @@ export class BackEnd {
           this.sendMessage(requestLoadStudents());
           if (this.connected) {
             App.store.dispatch(addAlert('success', 'socketconnect', 'Server connection established'));
+            this.connected = true;
+            App.store.dispatch(setConnectionStatus(true));
+            this.queuedMessages.forEach(message => {
+              this.sendMessage(message);
+            })
           }
-          this.connected = true;
         };
         socket.onmessage = event => {
           this.handleAction(event.data);
@@ -28,10 +34,11 @@ export class BackEnd {
         socket.onclose = event => {
           if (this.connected) {
             App.store.dispatch(addAlert('danger', 'socketclose', 'Server connection closed'));
-          }
-          else {
+          } else {
             App.store.dispatch(addAlert('danger', 'connectfail', 'Unable to connect to server'));
           }
+          this.connected = false;
+          App.store.dispatch(setConnectionStatus(false));
           this.socket = undefined;
         };
       }
@@ -54,10 +61,18 @@ export class BackEnd {
 
   sendMessage(msg: Message) {
     if (this.socket) {
-      this.socket.send(JSON.stringify(msg));
+      try {
+        this.socket.send(JSON.stringify(msg));
+        App.store.dispatch(setConnectionStatus(true));
+      } catch (err) {
+        this.queuedMessages.push(msg);
+        App.store.dispatch(setConnectionStatus(false));
+      }
     }
     else {
       App.logger.error(new Error('Attempt to send message before communications have been initiated'));
+      App.store.dispatch(setConnectionStatus(false));
+      this.queuedMessages.push(msg);
     }
   }
 }

@@ -4,6 +4,18 @@ import { FilterSet } from './Filter';
 import SortCriterion from './SortCriterion';
 import Student from './Student';
 
+export interface SetConnectionStatusAction {
+  type: 'SetConnectionStatus';
+  isConnected: boolean;
+}
+
+export function setConnectionStatus(isConnected: boolean): SetConnectionStatusAction {
+  return {
+    type: 'SetConnectionStatus',
+    isConnected
+  }
+}
+
 export interface LoadClasses {
   type: 'LoadClasses';
   classes: Class[];
@@ -123,6 +135,7 @@ export type Action =
   ServerLoadStudents |
   ServerUpdateStudent |
   ServerAddStudent |
-  ServerRemoveStudent;
+  ServerRemoveStudent |
+  SetConnectionStatusAction;
 
 export default Action;
